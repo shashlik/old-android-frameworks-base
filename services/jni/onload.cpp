@@ -52,19 +52,19 @@ extern "C" jint JNI_OnLoad(JavaVM* vm, void* reserved)
     ALOG_ASSERT(env, "Could not retrieve the env!");
 
     register_android_server_PowerManagerService(env);
-    register_android_server_SerialService(env);
-    register_android_server_InputApplicationHandle(env);
-    register_android_server_InputWindowHandle(env);
-    register_android_server_InputManager(env);
-    register_android_server_LightsService(env);
-    register_android_server_AlarmManagerService(env);
-    register_android_server_UsbDeviceManager(env);
-    register_android_server_UsbHostManager(env);
-    register_android_server_VibratorService(env);
+//     register_android_server_SerialService(env);
+//     register_android_server_InputApplicationHandle(env);
+//     register_android_server_InputWindowHandle(env);
+//     register_android_server_InputManager(env);
+//     register_android_server_LightsService(env);
+//     register_android_server_AlarmManagerService(env);
+//     register_android_server_UsbDeviceManager(env);
+//     register_android_server_UsbHostManager(env);
+//     register_android_server_VibratorService(env);
     register_android_server_SystemServer(env);
-    register_android_server_location_GpsLocationProvider(env);
-    register_android_server_location_FlpHardwareProvider(env);
-    register_android_server_connectivity_Vpn(env);
+//     register_android_server_location_GpsLocationProvider(env);
+//     register_android_server_location_FlpHardwareProvider(env);
+//     register_android_server_connectivity_Vpn(env);
     register_android_server_AssetAtlasService(env);
     register_android_server_ConsumerIrService(env);
 

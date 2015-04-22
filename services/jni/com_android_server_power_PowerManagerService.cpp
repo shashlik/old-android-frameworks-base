@@ -32,8 +32,8 @@
 #include <utils/String8.h>
 #include <utils/Log.h>
 #include <hardware/power.h>
-#include <hardware_legacy/power.h>
-#include <suspend/autosuspend.h>
+// #include <hardware_legacy/power.h>
+// #include <suspend/autosuspend.h>
 
 #include "com_android_server_power_PowerManagerService.h"
 
@@ -158,13 +158,13 @@ static void nativeSetPowerState(JNIEnv* env,
 }
 
 static void nativeAcquireSuspendBlocker(JNIEnv *env, jclass clazz, jstring nameStr) {
-    ScopedUtfChars name(env, nameStr);
-    acquire_wake_lock(PARTIAL_WAKE_LOCK, name.c_str());
+//     ScopedUtfChars name(env, nameStr);
+//     acquire_wake_lock(PARTIAL_WAKE_LOCK, name.c_str());
 }
 
 static void nativeReleaseSuspendBlocker(JNIEnv *env, jclass clazz, jstring nameStr) {
-    ScopedUtfChars name(env, nameStr);
-    release_wake_lock(name.c_str());
+//     ScopedUtfChars name(env, nameStr);
+//     release_wake_lock(name.c_str());
 }
 
 static void nativeSetInteractive(JNIEnv *env, jclass clazz, jboolean enable) {
@@ -182,10 +182,10 @@ static void nativeSetInteractive(JNIEnv *env, jclass clazz, jboolean enable) {
 static void nativeSetAutoSuspend(JNIEnv *env, jclass clazz, jboolean enable) {
     if (enable) {
         ALOGD_IF_SLOW(100, "Excessive delay in autosuspend_enable() while turning screen off");
-        autosuspend_enable();
+//         autosuspend_enable();
     } else {
         ALOGD_IF_SLOW(100, "Excessive delay in autosuspend_disable() while turning screen on");
-        autosuspend_disable();
+//         autosuspend_disable();
     }
 }
 

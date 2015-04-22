@@ -32,6 +32,7 @@
 #include <SkTemplates.h>
 #include <SkTypeface.h>
 #include <SkUtils.h>
+#include <SkPaintOptionsAndroid.h>
 
 #include <unicode/ubidi.h>
 #include <unicode/unistr.h>

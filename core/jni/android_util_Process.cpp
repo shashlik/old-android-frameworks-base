@@ -63,10 +63,10 @@ static void signalExceptionForPriorityError(JNIEnv* env, int err)
             jniThrowException(env, "java/lang/IllegalArgumentException", "Given thread does not exist");
             break;
         case EPERM:
-            jniThrowException(env, "java/lang/SecurityException", "No permission to modify given thread");
+//             jniThrowException(env, "java/lang/SecurityException", "No permission to modify given thread");
             break;
         case EACCES:
-            jniThrowException(env, "java/lang/SecurityException", "No permission to set to given priority");
+//             jniThrowException(env, "java/lang/SecurityException", "No permission to set to given priority");
             break;
         default:
             jniThrowException(env, "java/lang/RuntimeException", "Unknown error");
@@ -84,10 +84,10 @@ static void signalExceptionForGroupError(JNIEnv* env, int err)
             jniThrowException(env, "java/lang/IllegalArgumentException", "Given thread does not exist");
             break;
         case EPERM:
-            jniThrowException(env, "java/lang/SecurityException", "No permission to modify given thread");
+//             jniThrowException(env, "java/lang/SecurityException", "No permission to modify given thread");
             break;
         case EACCES:
-            jniThrowException(env, "java/lang/SecurityException", "No permission to set to given group");
+//             jniThrowException(env, "java/lang/SecurityException", "No permission to set to given group");
             break;
         default:
             jniThrowException(env, "java/lang/RuntimeException", "Unknown error");
@@ -402,7 +402,10 @@ void android_os_Process_setArgV0(JNIEnv* env, jobject clazz, jstring name)
     }
 
     if (name8.size() > 0) {
-        ProcessState::self()->setArgV0(name8.string());
+//         const char* procName = name8.string();
+//         set_process_name(procName);
+//         AndroidRuntime::getRuntime()->setArgv0(procName);
+//         ProcessState::self()->setArgV0(name8.string());
     }
 }
 

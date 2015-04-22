@@ -186,10 +186,10 @@ static void SystemProperties_set(JNIEnv *env, jobject clazz,
         env->ReleaseStringUTFChars(valJ, val);
     }
 
-    if (err < 0) {
-        jniThrowException(env, "java/lang/RuntimeException",
-                          "failed to set system property");
-    }
+//     if (err < 0) {
+//         jniThrowException(env, "java/lang/RuntimeException",
+//                           "failed to set system property");
+//     }
 }
 
 static JavaVM* sVM = NULL;

@@ -790,6 +790,7 @@ private:
         virtual ~Connection();
 
     public:
+#undef Status // because x defines this sort of thing willy nilly...
         enum Status {
             // Everything is peachy.
             STATUS_NORMAL,

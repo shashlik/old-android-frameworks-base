@@ -21,7 +21,8 @@
 #include "TextLayoutCache.h"
 #include "TextLayout.h"
 #include "SkGlyphCache.h"
-#include "SkTypeface_android.h"
+// #include "SkTypeface_android.h" // can't use this class here, as it's not compiled into Skia...
+#include "SkTypeface.h"
 #include "HarfBuzzNGFaceSkia.h"
 #include <unicode/unistr.h>
 #include <unicode/uchar.h>
@@ -492,7 +493,7 @@ void TextLayoutShaper::computeValues(const SkPaint* paint, const UChar* chars,
     (((ucs) & 0xfc00) == 0xdc00)
 
 #ifndef HB_SurrogateToUcs4
-#define HB_SurrogateToUcs4_(high, low) \
+#define HB_SurrogateToUcs4(high, low) \
     (((hb_codepoint_t)(high))<<10) + (low) - 0x35fdc00;
 #endif
 
@@ -784,7 +785,8 @@ SkTypeface* TextLayoutShaper::typefaceForScript(const SkPaint* paint, SkTypeface
     if (typeface) {
         currentStyle = typeface->style();
     }
-    typeface = SkCreateTypefaceForScriptNG(script, currentStyle);
+    // No SkCreateTypefaceForScriptNG because Skia is compiled partly without this
+//     typeface = SkCreateTypefaceForScriptNG(script, currentStyle);
 #if DEBUG_GLYPHS
     ALOGD("Using Harfbuzz Script %c%c%c%c, Style %d", HB_UNTAG(script), currentStyle);
 #endif

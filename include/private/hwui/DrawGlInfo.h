@@ -62,6 +62,7 @@ struct DrawGlInfo {
      * Values used by OpenGL functors to tell the framework
      * what to do next.
      */
+#undef Status // because x defines this sort of thing willy nilly...
     enum Status {
         // The functor is done
         kStatusDone = 0x0,

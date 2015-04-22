@@ -428,14 +428,14 @@ public class ZygoteInit {
             if (false) {
                 Log.v(TAG, "Preloading resource #" + Integer.toHexString(id));
             }
-            if (id != 0) {
-                if (mResources.getDrawable(id) == null) {
-                    throw new IllegalArgumentException(
-                            "Unable to find preloaded drawable resource #0x"
-                            + Integer.toHexString(id)
-                            + " (" + ar.getString(i) + ")");
-                }
-            }
+//             if (id != 0) {
+//                 if (mResources.getDrawable(id) == null) {
+//                     throw new IllegalArgumentException(
+//                             "Unable to find preloaded drawable resource #0x"
+//                             + Integer.toHexString(id)
+//                             + " (" + ar.getString(i) + ")");
+//                 }
+//             }
         }
         return N;
     }

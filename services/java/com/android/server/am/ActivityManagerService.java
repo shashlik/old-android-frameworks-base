@@ -1776,8 +1776,8 @@ public final class ActivityManagerService extends ActivityManagerNative
     }
 
     public void startObservingNativeCrashes() {
-        final NativeCrashListener ncl = new NativeCrashListener();
-        ncl.start();
+//         final NativeCrashListener ncl = new NativeCrashListener();
+//         ncl.start();
     }
 
     public static final Context main(int factoryTest) {
@@ -13015,27 +13015,28 @@ public final class ActivityManagerService extends ActivityManagerNative
         int callingPid;
         synchronized(this) {
             ProcessRecord callerApp = null;
-            if (caller != null) {
-                callerApp = getRecordForAppLocked(caller);
-                if (callerApp == null) {
-                    throw new SecurityException(
-                            "Unable to find app for caller " + caller
-                            + " (pid=" + Binder.getCallingPid()
-                            + ") when registering receiver " + receiver);
-                }
-                if (callerApp.info.uid != Process.SYSTEM_UID &&
-                        !callerApp.pkgList.containsKey(callerPackage) &&
-                        !"android".equals(callerPackage)) {
-                    throw new SecurityException("Given caller package " + callerPackage
-                            + " is not running in process " + callerApp);
-                }
-                callingUid = callerApp.info.uid;
-                callingPid = callerApp.pid;
-            } else {
+            Slog.e(TAG, "BORKEN! This really should not be like this, but it makes things work for now.");
+//             if (caller != null) {
+//                 callerApp = getRecordForAppLocked(caller);
+//                 if (callerApp == null) {
+//                     throw new SecurityException(
+//                             "Unable to find app for caller " + caller
+//                             + " (pid=" + Binder.getCallingPid()
+//                             + ") when registering receiver " + receiver);
+//                 }
+//                 if (callerApp.info.uid != Process.SYSTEM_UID &&
+//                         !callerApp.pkgList.containsKey(callerPackage) &&
+//                         !"android".equals(callerPackage)) {
+//                     throw new SecurityException("Given caller package " + callerPackage
+//                             + " is not running in process " + callerApp);
+//                 }
+//                 callingUid = callerApp.info.uid;
+//                 callingPid = callerApp.pid;
+//             } else {
                 callerPackage = null;
                 callingUid = Binder.getCallingUid();
                 callingPid = Binder.getCallingPid();
-            }
+//             }
 
             userId = this.handleIncomingUser(callingPid, callingUid, userId,
                     true, true, "registerReceiver", callerPackage);

@@ -21,8 +21,8 @@ import android.util.Slog;
 
 import libcore.io.ErrnoException;
 import libcore.io.Libcore;
-import libcore.io.StructTimeval;
-import libcore.io.StructUcred;
+import android.system.StructTimeval;
+import android.system.StructUcred;
 
 import static libcore.io.OsConstants.*;
 
@@ -181,15 +181,19 @@ final class NativeCrashListener extends Thread {
             throws ErrnoException {
         int totalRead = 0;
         while (numBytes > 0) {
-            int n = Libcore.os.read(fd, buffer, offset + totalRead, numBytes);
-            if (n <= 0) {
-                if (DEBUG) {
-                    Slog.w(TAG, "Needed " + numBytes + " but saw " + n);
+            try {
+                int n = Libcore.os.read(fd, buffer, offset + totalRead, numBytes);
+                if (n <= 0) {
+                    if (DEBUG) {
+                        Slog.w(TAG, "Needed " + numBytes + " but saw " + n);
+                    }
+                    return -1;  // premature EOF or timeout
                 }
-                return -1;  // premature EOF or timeout
+                numBytes -= n;
+                totalRead += n;
             }
-            numBytes -= n;
-            totalRead += n;
+            catch (java.io.InterruptedIOException ignored) {
+            }
         }
         return totalRead;
     }

@@ -22,7 +22,7 @@
 
 #include <utils/misc.h>
 #include <utils/Log.h>
-#include <hardware_legacy/vibrator.h>
+// #include <hardware_legacy/vibrator.h>
 
 #include <stdio.h>
 
@@ -31,19 +31,20 @@ namespace android
 
 static jboolean vibratorExists(JNIEnv *env, jobject clazz)
 {
-    return vibrator_exists() > 0 ? JNI_TRUE : JNI_FALSE;
+//     return vibrator_exists() > 0 ? JNI_TRUE : JNI_FALSE;
+    return JNI_FALSE;
 }
 
 static void vibratorOn(JNIEnv *env, jobject clazz, jlong timeout_ms)
 {
     // ALOGI("vibratorOn\n");
-    vibrator_on(timeout_ms);
+//     vibrator_on(timeout_ms);
 }
 
 static void vibratorOff(JNIEnv *env, jobject clazz)
 {
     // ALOGI("vibratorOff\n");
-    vibrator_off();
+//     vibrator_off();
 }
 
 static JNINativeMethod method_table[] = {

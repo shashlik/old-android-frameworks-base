@@ -167,6 +167,8 @@ public final class BatteryService extends Binder {
             mBatteryPropertiesRegistrar.registerListener(mBatteryPropertiesListener);
         } catch (RemoteException e) {
             // Should never happen.
+        } catch (NullPointerException e) {
+            // This was never intended or expected as a possibility. Silly android
         }
     }
 
@@ -188,21 +190,24 @@ public final class BatteryService extends Binder {
     }
 
     private boolean isPoweredLocked(int plugTypeSet) {
-        // assume we are powered if battery state is unknown so
-        // the "stay on while plugged in" option will work.
-        if (mBatteryProps.batteryStatus == BatteryManager.BATTERY_STATUS_UNKNOWN) {
-            return true;
-        }
-        if ((plugTypeSet & BatteryManager.BATTERY_PLUGGED_AC) != 0 && mBatteryProps.chargerAcOnline) {
-            return true;
-        }
-        if ((plugTypeSet & BatteryManager.BATTERY_PLUGGED_USB) != 0 && mBatteryProps.chargerUsbOnline) {
-            return true;
-        }
-        if ((plugTypeSet & BatteryManager.BATTERY_PLUGGED_WIRELESS) != 0 && mBatteryProps.chargerWirelessOnline) {
-            return true;
-        }
-        return false;
+        Slog.e(TAG, "KAPOW! As we have an issue with battery props and services and whatnot, just say we're on power.");
+        return true;
+
+//         // assume we are powered if battery state is unknown so
+//         // the "stay on while plugged in" option will work.
+//         if (mBatteryProps.batteryStatus == BatteryManager.BATTERY_STATUS_UNKNOWN) {
+//             return true;
+//         }
+//         if ((plugTypeSet & BatteryManager.BATTERY_PLUGGED_AC) != 0 && mBatteryProps.chargerAcOnline) {
+//             return true;
+//         }
+//         if ((plugTypeSet & BatteryManager.BATTERY_PLUGGED_USB) != 0 && mBatteryProps.chargerUsbOnline) {
+//             return true;
+//         }
+//         if ((plugTypeSet & BatteryManager.BATTERY_PLUGGED_WIRELESS) != 0 && mBatteryProps.chargerWirelessOnline) {
+//             return true;
+//         }
+//         return false;
     }
 
     /**
@@ -219,7 +224,9 @@ public final class BatteryService extends Binder {
      */
     public int getBatteryLevel() {
         synchronized (mLock) {
-            return mBatteryProps.batteryLevel;
+            Slog.e(TAG, "KAPOW! As we have an issue with battery props and services and whatnot, just say we're reasonably charged.");
+            return 75;
+//             return mBatteryProps.batteryLevel;
         }
     }
 
@@ -228,7 +235,9 @@ public final class BatteryService extends Binder {
      */
     public boolean isBatteryLow() {
         synchronized (mLock) {
-            return mBatteryProps.batteryPresent && mBatteryProps.batteryLevel <= mLowBatteryWarningLevel;
+            Slog.e(TAG, "KAPOW! As we have an issue with battery props and services and whatnot, just say we're reasonably charged.");
+            return false;
+//             return mBatteryProps.batteryPresent && mBatteryProps.batteryLevel <= mLowBatteryWarningLevel;
         }
     }
 
@@ -242,40 +251,44 @@ public final class BatteryService extends Binder {
     }
 
     private void shutdownIfNoPowerLocked() {
-        // shut down gracefully if our battery is critically low and we are not powered.
-        // wait until the system has booted before attempting to display the shutdown dialog.
-        if (mBatteryProps.batteryLevel == 0 && !isPoweredLocked(BatteryManager.BATTERY_PLUGGED_ANY)) {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (ActivityManagerNative.isSystemReady()) {
-                        Intent intent = new Intent(Intent.ACTION_REQUEST_SHUTDOWN);
-                        intent.putExtra(Intent.EXTRA_KEY_CONFIRM, false);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        mContext.startActivityAsUser(intent, UserHandle.CURRENT);
-                    }
-                }
-            });
-        }
+            Slog.e(TAG, "KAPOW! As we have an issue with battery props and services and whatnot, just say we're all fiiiine.");
+            return;
+//         // shut down gracefully if our battery is critically low and we are not powered.
+//         // wait until the system has booted before attempting to display the shutdown dialog.
+//         if (mBatteryProps.batteryLevel == 0 && !isPoweredLocked(BatteryManager.BATTERY_PLUGGED_ANY)) {
+//             mHandler.post(new Runnable() {
+//                 @Override
+//                 public void run() {
+//                     if (ActivityManagerNative.isSystemReady()) {
+//                         Intent intent = new Intent(Intent.ACTION_REQUEST_SHUTDOWN);
+//                         intent.putExtra(Intent.EXTRA_KEY_CONFIRM, false);
+//                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                         mContext.startActivityAsUser(intent, UserHandle.CURRENT);
+//                     }
+//                 }
+//             });
+//         }
     }
 
     private void shutdownIfOverTempLocked() {
-        // shut down gracefully if temperature is too high (> 68.0C by default)
-        // wait until the system has booted before attempting to display the
-        // shutdown dialog.
-        if (mBatteryProps.batteryTemperature > mShutdownBatteryTemperature) {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (ActivityManagerNative.isSystemReady()) {
-                        Intent intent = new Intent(Intent.ACTION_REQUEST_SHUTDOWN);
-                        intent.putExtra(Intent.EXTRA_KEY_CONFIRM, false);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        mContext.startActivityAsUser(intent, UserHandle.CURRENT);
-                    }
-                }
-            });
-        }
+            Slog.e(TAG, "KAPOW! As we have an issue with battery props and services and whatnot, just say we're all fiiiine.");
+            return;
+//         // shut down gracefully if temperature is too high (> 68.0C by default)
+//         // wait until the system has booted before attempting to display the
+//         // shutdown dialog.
+//         if (mBatteryProps.batteryTemperature > mShutdownBatteryTemperature) {
+//             mHandler.post(new Runnable() {
+//                 @Override
+//                 public void run() {
+//                     if (ActivityManagerNative.isSystemReady()) {
+//                         Intent intent = new Intent(Intent.ACTION_REQUEST_SHUTDOWN);
+//                         intent.putExtra(Intent.EXTRA_KEY_CONFIRM, false);
+//                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                         mContext.startActivityAsUser(intent, UserHandle.CURRENT);
+//                     }
+//                 }
+//             });
+//         }
     }
 
     private void update(BatteryProperties props) {

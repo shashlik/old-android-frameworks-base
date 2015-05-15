@@ -159,7 +159,7 @@ import java.util.Set;
 import libcore.io.ErrnoException;
 import libcore.io.IoUtils;
 import libcore.io.Libcore;
-import libcore.io.StructStat;
+import android.system.StructStat;
 
 import com.android.internal.R;
 
@@ -3514,7 +3514,7 @@ public class PackageManagerService extends IPackageManager.Stub {
             FileOutputStream out = new FileOutputStream(fname, true);
             PrintWriter pw = new FastPrintWriter(out);
             SimpleDateFormat formatter = new SimpleDateFormat();
-            String dateString = formatter.format(new Date(System.currentTimeMillis()));
+            String dateString = "What now?";//formatter.format(new Date(System.currentTimeMillis()));
             pw.println(dateString + ": " + msg);
             pw.close();
             FileUtils.setPermissions(

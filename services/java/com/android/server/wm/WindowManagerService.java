@@ -5374,10 +5374,11 @@ public class WindowManagerService extends IWindowManager.Stub
                 pw.flush();
                 Slog.i(TAG, sw.toString());
             }
+            Slog.e(TAG, "THIS NEEDS FIXING ONCE WE HAVE WORKING SURFACEFLINGER");
             try {
                 IBinder surfaceFlinger = ServiceManager.getService("SurfaceFlinger");
                 if (surfaceFlinger != null) {
-                    //Slog.i(TAG, "******* TELLING SURFACE FLINGER WE ARE BOOTED!");
+                    Slog.i(TAG, "******* TELLING SURFACE FLINGER WE ARE BOOTED!");
                     Parcel data = Parcel.obtain();
                     data.writeInterfaceToken("android.ui.ISurfaceComposer");
                     surfaceFlinger.transact(IBinder.FIRST_CALL_TRANSACTION, // BOOT_FINISHED
@@ -6635,6 +6636,11 @@ public class WindowManagerService extends IWindowManager.Stub
         // TODO(multidisplay): For now, apply Configuration to main screen only.
         final DisplayContent displayContent = getDefaultDisplayContentLocked();
 
+        // so, this should not sensibly happen. Apparently it does.
+        if(displayContent == null) {
+            return false;
+        }
+
         // Use the effective "visual" dimensions based on current rotation
         final boolean rotated = (mRotation == Surface.ROTATION_90
                 || mRotation == Surface.ROTATION_270);
@@ -7873,6 +7879,9 @@ public class WindowManagerService extends IWindowManager.Stub
     }
 
     private void configureDisplayPolicyLocked(DisplayContent displayContent) {
+        // OK, so this can happen.
+        if(displayContent == null)
+            return;
         mPolicy.setInitialDisplaySize(displayContent.getDisplay(),
                 displayContent.mBaseDisplayWidth,
                 displayContent.mBaseDisplayHeight,

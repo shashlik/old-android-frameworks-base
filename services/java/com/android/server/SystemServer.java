@@ -612,13 +612,14 @@ class ServerThread {
                 }
             }
 
-            try {
-                Slog.i(TAG, "DropBox Service");
-                ServiceManager.addService(Context.DROPBOX_SERVICE,
-                        new DropBoxManagerService(context, new File("/data/system/dropbox")));
-            } catch (Throwable e) {
-                reportWtf("starting DropBoxManagerService", e);
-            }
+            // You are bad and you should feel bad. Why is this an absolute path? Also, why is DropBox in the core?!
+//             try {
+//                 Slog.i(TAG, "DropBox Service");
+//                 ServiceManager.addService(Context.DROPBOX_SERVICE,
+//                         new DropBoxManagerService(context, new File("/data/system/dropbox")));
+//             } catch (Throwable e) {
+//                 reportWtf("starting DropBoxManagerService", e);
+//             }
 
             if (!disableNonCoreServices && context.getResources().getBoolean(
                         R.bool.config_enableWallpaperService)) {
@@ -799,15 +800,16 @@ class ServerThread {
                 reportWtf("starting IdleMaintenanceService", e);
             }
 
-            try {
-                Slog.i(TAG, "Print Service");
-                printManager = new PrintManagerService(context);
-                ServiceManager.addService(Context.PRINT_SERVICE, printManager);
-            } catch (Throwable e) {
-                reportWtf("starting Print Service", e);
-            }
-
+            // print service was not in here before. Why is print service core?
             if (!disableNonCoreServices) {
+                try {
+                    Slog.i(TAG, "Print Service");
+                    printManager = new PrintManagerService(context);
+                    ServiceManager.addService(Context.PRINT_SERVICE, printManager);
+                } catch (Throwable e) {
+                    reportWtf("starting Print Service", e);
+                }
+
                 try {
                     Slog.i(TAG, "Media Router Service");
                     mediaRouter = new MediaRouterService(context);
@@ -834,11 +836,11 @@ class ServerThread {
 
         // It is now time to start up the app processes...
 
-        try {
-            vibrator.systemReady();
-        } catch (Throwable e) {
-            reportWtf("making Vibrator Service ready", e);
-        }
+//         try {
+//             vibrator.systemReady();
+//         } catch (Throwable e) {
+//             reportWtf("making Vibrator Service ready", e);
+//         }
 
         if (lockSettings != null) {
             try {

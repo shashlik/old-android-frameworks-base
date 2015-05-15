@@ -902,6 +902,9 @@ public final class Settings {
             } catch (RemoteException e) {
                 Log.w(TAG, "Can't set key " + name + " in " + mUri, e);
                 return false;
+            } catch (NullPointerException e) {
+                Log.w(TAG, "Can't set key " + name + " in " + mUri, e);
+                return true;
             }
             return true;
         }
@@ -965,6 +968,10 @@ public final class Settings {
                 } catch (RemoteException e) {
                     // Not supported by the remote side?  Fall through
                     // to query().
+                } catch (NullPointerException ignore) {
+                    // if cp is null, then there are other issues going on ;)
+                    Log.w(TAG, "Can't get key " + name + " from " + mUri);
+                    return null;
                 }
             }
 
@@ -987,6 +994,9 @@ public final class Settings {
                 }
                 return value;
             } catch (RemoteException e) {
+                Log.w(TAG, "Can't get key " + name + " from " + mUri, e);
+                return null;  // Return null, but don't cache it.
+            } catch (NullPointerException e) {
                 Log.w(TAG, "Can't get key " + name + " from " + mUri, e);
                 return null;  // Return null, but don't cache it.
             } finally {

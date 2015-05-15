@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import libcore.io.ErrnoException;
 import libcore.io.IoUtils;
 import libcore.io.Libcore;
+import static libcore.io.OsConstants.O_CLOEXEC;
 
 /**
  * A connection that can make spawn requests.
@@ -214,7 +215,7 @@ class ZygoteConnection {
             }
 
             if (parsedArgs.runtimeInit && parsedArgs.invokeWith != null) {
-                FileDescriptor[] pipeFds = Libcore.os.pipe();
+                FileDescriptor[] pipeFds = Libcore.os.pipe2(O_CLOEXEC);
                 childPipeFd = pipeFds[1];
                 serverPipeFd = pipeFds[0];
                 ZygoteInit.setCloseOnExec(serverPipeFd, true);

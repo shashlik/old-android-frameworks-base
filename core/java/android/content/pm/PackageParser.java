@@ -635,14 +635,15 @@ public class PackageParser {
                 // files.
                 JarEntry jarEntry = jarFile.getJarEntry(ANDROID_MANIFEST_FILENAME);
                 certs = loadCertificates(jarFile, jarEntry, readBuffer);
-                if (certs == null) {
-                    Slog.e(TAG, "Package " + pkg.packageName
-                            + " has no certificates at entry "
-                            + jarEntry.getName() + "; ignoring!");
-                    jarFile.close();
-                    mParseError = PackageManager.INSTALL_PARSE_FAILED_NO_CERTIFICATES;
-                    return false;
-                }
+                Slog.e(TAG, "THIS NEEDS FIXING WHEN WE GET FURTHER, CERTIFICATES YES PLEASE!");
+//                 if (certs == null) {
+//                     Slog.e(TAG, "Package " + pkg.packageName
+//                             + " has no certificates at entry "
+//                             + jarEntry.getName() + "; ignoring!");
+//                     jarFile.close();
+//                     mParseError = PackageManager.INSTALL_PARSE_FAILED_NO_CERTIFICATES;
+//                     return false;
+//                 }
                 if (DEBUG_JAR) {
                     Slog.i(TAG, "File " + mArchiveSourcePath + ": entry=" + jarEntry
                             + " certs=" + (certs != null ? certs.length : 0));
@@ -678,36 +679,37 @@ public class PackageParser {
                                 + (certs != null ? certs.length : 0) + ")");
                     }
 
-                    if (localCerts == null) {
-                        Slog.e(TAG, "Package " + pkg.packageName
-                                + " has no certificates at entry "
-                                + je.getName() + "; ignoring!");
-                        jarFile.close();
-                        mParseError = PackageManager.INSTALL_PARSE_FAILED_NO_CERTIFICATES;
-                        return false;
-                    } else if (certs == null) {
-                        certs = localCerts;
-                    } else {
-                        // Ensure all certificates match.
-                        for (int i=0; i<certs.length; i++) {
-                            boolean found = false;
-                            for (int j=0; j<localCerts.length; j++) {
-                                if (certs[i] != null &&
-                                        certs[i].equals(localCerts[j])) {
-                                    found = true;
-                                    break;
-                                }
-                            }
-                            if (!found || certs.length != localCerts.length) {
-                                Slog.e(TAG, "Package " + pkg.packageName
-                                        + " has mismatched certificates at entry "
-                                        + je.getName() + "; ignoring!");
-                                jarFile.close();
-                                mParseError = PackageManager.INSTALL_PARSE_FAILED_INCONSISTENT_CERTIFICATES;
-                                return false;
-                            }
-                        }
-                    }
+                Slog.e(TAG, "THIS NEEDS FIXING WHEN WE GET FURTHER, CERTIFICATES YES PLEASE! - no really, there's two of these");
+//                     if (localCerts == null) {
+//                         Slog.e(TAG, "Package " + pkg.packageName
+//                                 + " has no certificates at entry "
+//                                 + je.getName() + "; ignoring!");
+//                         jarFile.close();
+//                         mParseError = PackageManager.INSTALL_PARSE_FAILED_NO_CERTIFICATES;
+//                         return false;
+//                     } else if (certs == null) {
+//                         certs = localCerts;
+//                     } else {
+//                         // Ensure all certificates match.
+//                         for (int i=0; i<certs.length; i++) {
+//                             boolean found = false;
+//                             for (int j=0; j<localCerts.length; j++) {
+//                                 if (certs[i] != null &&
+//                                         certs[i].equals(localCerts[j])) {
+//                                     found = true;
+//                                     break;
+//                                 }
+//                             }
+//                             if (!found || certs.length != localCerts.length) {
+//                                 Slog.e(TAG, "Package " + pkg.packageName
+//                                         + " has mismatched certificates at entry "
+//                                         + je.getName() + "; ignoring!");
+//                                 jarFile.close();
+//                                 mParseError = PackageManager.INSTALL_PARSE_FAILED_INCONSISTENT_CERTIFICATES;
+//                                 return false;
+//                             }
+//                         }
+//                     }
                 }
             }
             jarFile.close();
@@ -716,31 +718,36 @@ public class PackageParser {
                 mReadBuffer = readBufferRef;
             }
 
-            if (certs != null && certs.length > 0) {
-                final int N = certs.length;
-                pkg.mSignatures = new Signature[certs.length];
-                for (int i=0; i<N; i++) {
-                    pkg.mSignatures[i] = new Signature(
-                            certs[i].getEncoded());
-                }
-            } else {
-                Slog.e(TAG, "Package " + pkg.packageName
-                        + " has no certificates; ignoring!");
-                mParseError = PackageManager.INSTALL_PARSE_FAILED_NO_CERTIFICATES;
-                return false;
-            }
+                Slog.e(TAG, "THIS NEEDS FIXING WHEN WE GET FURTHER, CERTIFICATES YES PLEASE! - yyup, three");
+//             if (certs != null && certs.length > 0) {
+//                 final int N = certs.length;
+//                 pkg.mSignatures = new Signature[certs.length];
+//                 for (int i=0; i<N; i++) {
+//                     pkg.mSignatures[i] = new Signature(
+//                             certs[i].getEncoded());
+//                 }
+//             } else {
+//                 Slog.e(TAG, "Package " + pkg.packageName
+//                         + " has no certificates; ignoring!");
+//                 mParseError = PackageManager.INSTALL_PARSE_FAILED_NO_CERTIFICATES;
+//                 return false;
+//             }
 
             // Add the signing KeySet to the system
             pkg.mSigningKeys = new HashSet<PublicKey>();
-            for (int i=0; i < certs.length; i++) {
-                pkg.mSigningKeys.add(certs[i].getPublicKey());
+            if(certs != null) {
+                for (int i=0; i < certs.length; i++) {
+                    pkg.mSigningKeys.add(certs[i].getPublicKey());
+                }
             }
 
-        } catch (CertificateEncodingException e) {
-            Slog.w(TAG, "Exception reading " + mArchiveSourcePath, e);
-            mParseError = PackageManager.INSTALL_PARSE_FAILED_CERTIFICATE_ENCODING;
-            return false;
-        } catch (IOException e) {
+        }
+//         catch (CertificateEncodingException e) {
+//             Slog.w(TAG, "Exception reading " + mArchiveSourcePath, e);
+//             mParseError = PackageManager.INSTALL_PARSE_FAILED_CERTIFICATE_ENCODING;
+//             return false;
+//         }
+        catch (IOException e) {
             Slog.w(TAG, "Exception reading " + mArchiveSourcePath, e);
             mParseError = PackageManager.INSTALL_PARSE_FAILED_CERTIFICATE_ENCODING;
             return false;

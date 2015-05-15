@@ -94,7 +94,7 @@ import com.android.internal.os.RuntimeInit;
 import com.android.internal.os.SamplingProfilerIntegration;
 import com.android.internal.util.FastPrintWriter;
 import com.android.internal.util.Objects;
-import com.android.org.conscrypt.OpenSSLSocketImpl;
+//import com.android.org.conscrypt.OpenSSLSocketImpl;
 import com.google.android.collect.Lists;
 
 import java.io.File;
@@ -919,7 +919,7 @@ public final class ActivityThread {
             int binderLocalObjectCount = Debug.getBinderLocalObjectCount();
             int binderProxyObjectCount = Debug.getBinderProxyObjectCount();
             int binderDeathObjectCount = Debug.getBinderDeathObjectCount();
-            long openSslSocketCount = Debug.countInstancesOfClass(OpenSSLSocketImpl.class);
+            long openSslSocketCount = 0;//Debug.countInstancesOfClass(OpenSSLSocketImpl.class);
             SQLiteDebug.PagerStats stats = SQLiteDebug.getDatabaseInfo();
 
             dumpMemInfoTable(pw, memInfo, checkin, dumpFullInfo, dumpDalvik, Process.myPid(),

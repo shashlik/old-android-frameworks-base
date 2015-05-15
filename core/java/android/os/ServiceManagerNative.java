@@ -18,7 +18,6 @@ package android.os;
 
 import java.util.ArrayList;
 
-
 /**
  * Native implementation of the service manager.  Most clients will only
  * care about getDefault() and possibly asInterface().

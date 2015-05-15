@@ -440,21 +440,27 @@ public class SurfaceControl {
 
     public static void unblankDisplay(IBinder displayToken) {
         if (displayToken == null) {
-            throw new IllegalArgumentException("displayToken must not be null");
+            Log.e(TAG, "displayToken must not be null. THis is unrecoverable, and we bail out. This is also normally an exception, so PUT THIS BACK WHEN DISPLAY IS NOT BORKENED!");
+            return;
+//          throw new IllegalArgumentException("displayToken must not be null");
         }
         nativeUnblankDisplay(displayToken);
     }
 
     public static void blankDisplay(IBinder displayToken) {
         if (displayToken == null) {
-            throw new IllegalArgumentException("displayToken must not be null");
+            Log.e(TAG, "displayToken must not be null. THis is unrecoverable, and we bail out. This is also normally an exception, so PUT THIS BACK WHEN DISPLAY IS NOT BORKENED!");
+            return;
+//          throw new IllegalArgumentException("displayToken must not be null");
         }
         nativeBlankDisplay(displayToken);
     }
 
     public static boolean getDisplayInfo(IBinder displayToken, SurfaceControl.PhysicalDisplayInfo outInfo) {
         if (displayToken == null) {
-            throw new IllegalArgumentException("displayToken must not be null");
+            Log.e(TAG, "displayToken must not be null. THis is unrecoverable, and we bail out. This is also normally an exception, so PUT THIS BACK WHEN DISPLAY IS NOT BORKENED!");
+            return false;
+//          throw new IllegalArgumentException("displayToken must not be null");
         }
         if (outInfo == null) {
             throw new IllegalArgumentException("outInfo must not be null");
@@ -465,7 +471,9 @@ public class SurfaceControl {
     public static void setDisplayProjection(IBinder displayToken,
             int orientation, Rect layerStackRect, Rect displayRect) {
         if (displayToken == null) {
-            throw new IllegalArgumentException("displayToken must not be null");
+            Log.e(TAG, "displayToken must not be null. THis is unrecoverable, and we bail out. This is also normally an exception, so PUT THIS BACK WHEN DISPLAY IS NOT BORKENED!");
+            return;
+//          throw new IllegalArgumentException("displayToken must not be null");
         }
         if (layerStackRect == null) {
             throw new IllegalArgumentException("layerStackRect must not be null");
@@ -480,14 +488,18 @@ public class SurfaceControl {
 
     public static void setDisplayLayerStack(IBinder displayToken, int layerStack) {
         if (displayToken == null) {
-            throw new IllegalArgumentException("displayToken must not be null");
+            Log.e(TAG, "displayToken must not be null. THis is unrecoverable, and we bail out. This is also normally an exception, so PUT THIS BACK WHEN DISPLAY IS NOT BORKENED!");
+            return;
+//          throw new IllegalArgumentException("displayToken must not be null");
         }
         nativeSetDisplayLayerStack(displayToken, layerStack);
     }
 
     public static void setDisplaySurface(IBinder displayToken, Surface surface) {
         if (displayToken == null) {
-            throw new IllegalArgumentException("displayToken must not be null");
+            Log.e(TAG, "displayToken must not be null. THis is unrecoverable, and we bail out. This is also normally an exception, so PUT THIS BACK WHEN DISPLAY IS NOT BORKENED!");
+            return;
+//          throw new IllegalArgumentException("displayToken must not be null");
         }
 
         if (surface != null) {
@@ -508,7 +520,9 @@ public class SurfaceControl {
 
     public static void destroyDisplay(IBinder displayToken) {
         if (displayToken == null) {
-            throw new IllegalArgumentException("displayToken must not be null");
+            Log.e(TAG, "displayToken must not be null. THis is unrecoverable, and we bail out. This is also normally an exception, so PUT THIS BACK WHEN DISPLAY IS NOT BORKENED!");
+            return;
+//          throw new IllegalArgumentException("displayToken must not be null");
         }
         nativeDestroyDisplay(displayToken);
     }
@@ -612,7 +626,9 @@ public class SurfaceControl {
     private static void screenshot(IBinder display, Surface consumer,
             int width, int height, int minLayer, int maxLayer, boolean allLayers) {
         if (display == null) {
-            throw new IllegalArgumentException("displayToken must not be null");
+            Log.e(TAG, "displayToken must not be null. THis is unrecoverable, and we bail out. This is also normally an exception, so PUT THIS BACK WHEN DISPLAY IS NOT BORKENED!");
+            return;
+//             throw new IllegalArgumentException("displayToken must not be null");
         }
         if (consumer == null) {
             throw new IllegalArgumentException("consumer must not be null");

@@ -180,6 +180,8 @@ public final class Choreographer {
     private static float getRefreshRate() {
         DisplayInfo di = DisplayManagerGlobal.getInstance().getDisplayInfo(
                 Display.DEFAULT_DISPLAY);
+        if(di == null)
+            return 1;
         return di.refreshRate;
     }
 

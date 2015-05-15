@@ -60,6 +60,9 @@ class ShortcutManager extends ContentObserver {
     public void observe() {
         mCursor = mContext.getContentResolver().query(
                 Settings.Bookmarks.CONTENT_URI, sProjection, null, null, null);
+        Log.e(TAG, "THIS IS BROKEN! WE FAIL AT GETTING BOOKMARKS THINGAMAJIGGER");
+        if(mCursor == null)
+            return;
         mCursor.registerContentObserver(this);
         updateShortcuts();
     }

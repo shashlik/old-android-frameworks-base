@@ -41,7 +41,7 @@ import java.util.concurrent.CountDownLatch;
 import libcore.io.ErrnoException;
 import libcore.io.Libcore;
 import libcore.io.OsConstants;
-import libcore.io.StructStat;
+import android.system.StructStat;
 
 /**
  * Provides the central interface between an

@@ -189,6 +189,9 @@ public final class TextServicesManager {
      * @hide
      */
     public SpellCheckerInfo getCurrentSpellChecker() {
+        // This can happen if core services only is on... silly, untested Android code paths
+        if(sService == null)
+            return null;
         try {
             // Passing null as a locale for ICS
             return sService.getCurrentSpellChecker(null);

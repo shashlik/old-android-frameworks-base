@@ -78,6 +78,9 @@ public class SystemProperties
         if (key.length() > PROP_NAME_MAX) {
             throw new IllegalArgumentException("key.length > " + PROP_NAME_MAX);
         }
+        if(key == "ro.build.version.sdk") {
+            return 19;
+        }
         return native_get_int(key, def);
     }
 
@@ -113,6 +116,25 @@ public class SystemProperties
         if (key.length() > PROP_NAME_MAX) {
             throw new IllegalArgumentException("key.length > " + PROP_NAME_MAX);
         }
+        if(key == "config.disable_storage") {
+            return true;
+        } else if(key == "config.disable_media") {
+            return true;
+        } else if(key == "config.disable_location") {
+            return true;
+        } else if(key == "config.disable_noncore") {
+            return true;
+        }else if(key == "config.disable_network") {
+            return true;
+        }
+//         boolean disableStorage = SystemProperties.getBoolean("config.disable_storage", false);
+//         boolean disableMedia = SystemProperties.getBoolean("config.disable_media", false);
+//         boolean disableBluetooth = SystemProperties.getBoolean("config.disable_bluetooth", false);
+//         boolean disableTelephony = SystemProperties.getBoolean("config.disable_telephony", false);
+//         boolean disableLocation = SystemProperties.getBoolean("config.disable_location", false);
+//         boolean disableSystemUI = SystemProperties.getBoolean("config.disable_systemui", false);
+//         boolean disableNonCoreServices = SystemProperties.getBoolean("config.disable_noncore", false);
+//         boolean disableNetwork = SystemProperties.getBoolean("config.disable_network", false);
         return native_get_boolean(key, def);
     }
 

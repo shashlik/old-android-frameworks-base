@@ -19,7 +19,7 @@
 
 #include "utils/Log.h"
 
-#include "hardware_legacy/uevent.h"
+// #include "hardware_legacy/uevent.h"
 #include "jni.h"
 #include "JNIHelp.h"
 #include "android_runtime/AndroidRuntime.h"
@@ -35,10 +35,10 @@ static Mutex gMatchesMutex;
 static Vector<String8> gMatches;
 
 static void nativeSetup(JNIEnv *env, jclass clazz) {
-    if (!uevent_init()) {
-        jniThrowException(env, "java/lang/RuntimeException",
-                "Unable to open socket for UEventObserver");
-    }
+//     if (!uevent_init()) {
+//         jniThrowException(env, "java/lang/RuntimeException",
+//                 "Unable to open socket for UEventObserver");
+//     }
 }
 
 static bool isMatch(const char* buffer, size_t length) {
@@ -65,7 +65,8 @@ static jstring nativeWaitForNextEvent(JNIEnv *env, jclass clazz) {
     char buffer[1024];
 
     for (;;) {
-        int length = uevent_next_event(buffer, sizeof(buffer) - 1);
+        // Because no hardware_legacy
+        int length = 0;//uevent_next_event(buffer, sizeof(buffer) - 1);
         if (length <= 0) {
             return NULL;
         }

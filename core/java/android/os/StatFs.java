@@ -18,7 +18,7 @@ package android.os;
 
 import libcore.io.ErrnoException;
 import libcore.io.Libcore;
-import libcore.io.StructStatVfs;
+import android.system.StructStatVfs;
 
 /**
  * Retrieve overall information about the space on a filesystem. This is a

@@ -97,8 +97,8 @@ public class FileUtils {
             try {
                 Libcore.os.chown(path, uid, gid);
             } catch (ErrnoException e) {
-                Slog.w(TAG, "Failed to chown(" + path + "): " + e);
-                return e.errno;
+//                 Slog.w(TAG, "Failed to chown(" + path + "): " + e);
+//                 return e.errno;
             }
         }
 
@@ -125,8 +125,8 @@ public class FileUtils {
             try {
                 Libcore.os.fchown(fd, uid, gid);
             } catch (ErrnoException e) {
-                Slog.w(TAG, "Failed to fchown(): " + e);
-                return e.errno;
+//                 Slog.w(TAG, "Failed to fchown(): " + e);
+//                 return e.errno;
             }
         }
 

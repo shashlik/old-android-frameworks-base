@@ -17,6 +17,7 @@
 package android.os;
 
 import static libcore.io.OsConstants.AF_UNIX;
+import static libcore.io.OsConstants.O_CLOEXEC;
 import static libcore.io.OsConstants.SEEK_SET;
 import static libcore.io.OsConstants.SOCK_STREAM;
 import static libcore.io.OsConstants.S_ISLNK;
@@ -24,16 +25,17 @@ import static libcore.io.OsConstants.S_ISREG;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentProvider;
+import libcore.io.ErrnoException;
+import libcore.io.Os;
+import libcore.io.OsConstants;
+import android.system.StructStat;
 import android.util.Log;
 
 import dalvik.system.CloseGuard;
 
-import libcore.io.ErrnoException;
 import libcore.io.IoUtils;
 import libcore.io.Libcore;
 import libcore.io.Memory;
-import libcore.io.OsConstants;
-import libcore.io.StructStat;
 
 import java.io.Closeable;
 import java.io.File;
@@ -42,6 +44,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.net.DatagramSocket;
 import java.net.Socket;
 import java.nio.ByteOrder;
@@ -358,7 +361,7 @@ public class ParcelFileDescriptor implements Parcelable, Closeable {
      */
     public static ParcelFileDescriptor[] createPipe() throws IOException {
         try {
-            final FileDescriptor[] fds = Libcore.os.pipe();
+            final FileDescriptor[] fds = Libcore.os.pipe2(O_CLOEXEC);
             return new ParcelFileDescriptor[] {
                     new ParcelFileDescriptor(fds[0]),
                     new ParcelFileDescriptor(fds[1]) };
@@ -380,7 +383,7 @@ public class ParcelFileDescriptor implements Parcelable, Closeable {
     public static ParcelFileDescriptor[] createReliablePipe() throws IOException {
         try {
             final FileDescriptor[] comm = createCommSocketPair();
-            final FileDescriptor[] fds = Libcore.os.pipe();
+            final FileDescriptor[] fds = Libcore.os.pipe2(O_CLOEXEC);
             return new ParcelFileDescriptor[] {
                     new ParcelFileDescriptor(fds[0], comm[0]),
                     new ParcelFileDescriptor(fds[1], comm[1]) };
@@ -698,6 +701,9 @@ public class ParcelFileDescriptor implements Parcelable, Closeable {
             } catch (ErrnoException e) {
                 // Reporting status is best-effort
                 Log.w(TAG, "Failed to report status: " + e);
+            } catch (InterruptedIOException e) {
+                // Reporting status is best-effort
+                Log.w(TAG, "Failed to report status: " + e);
             }
 
         } finally {
@@ -728,6 +734,9 @@ public class ParcelFileDescriptor implements Parcelable, Closeable {
                 Log.d(TAG, "Failed to read status; assuming dead: " + e);
                 return new Status(Status.DEAD);
             }
+        } catch (InterruptedIOException e) {
+            Log.d(TAG, "Failed to read status; assuming dead: " + e);
+            return new Status(Status.DEAD);
         }
     }
 
@@ -872,6 +881,8 @@ public class ParcelFileDescriptor implements Parcelable, Closeable {
      */
     @Override
     public void writeToParcel(Parcel out, int flags) {
+        // WARNING: This must stay in sync with Parcel::readParcelFileDescriptor()
+        // in frameworks/native/libs/binder/Parcel.cpp
         if (mWrapped != null) {
             try {
                 mWrapped.writeToParcel(out, flags);
@@ -897,6 +908,8 @@ public class ParcelFileDescriptor implements Parcelable, Closeable {
             = new Parcelable.Creator<ParcelFileDescriptor>() {
         @Override
         public ParcelFileDescriptor createFromParcel(Parcel in) {
+            // WARNING: This must stay in sync with Parcel::writeParcelFileDescriptor()
+            // in frameworks/native/libs/binder/Parcel.cpp
             final FileDescriptor fd = in.readRawFileDescriptor();
             FileDescriptor commChannel = null;
             if (in.readInt() != 0) {

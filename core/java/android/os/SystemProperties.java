@@ -124,7 +124,9 @@ public class SystemProperties
             return true;
         } else if(key == "config.disable_noncore") {
             return true;
-        }else if(key == "config.disable_network") {
+        } else if(key == "config.disable_network") {
+            return true;
+        } else if(key == "persist.sys.strictmode.disable") {
             return true;
         }
 //         boolean disableStorage = SystemProperties.getBoolean("config.disable_storage", false);

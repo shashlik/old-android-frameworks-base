@@ -202,8 +202,7 @@ public final class DisplayManagerService extends IDisplayManager.Stub {
 
     public DisplayManagerService(Context context, Handler mainHandler) {
         mContext = context;
-//         mHeadless = SystemProperties.get(SYSTEM_HEADLESS).equals("1");
-        mHeadless = true;
+        mHeadless = SystemProperties.get(SYSTEM_HEADLESS).equals("1");
 
         mHandler = new DisplayManagerHandler(mainHandler.getLooper());
         mUiHandler = UiThread.getHandler();

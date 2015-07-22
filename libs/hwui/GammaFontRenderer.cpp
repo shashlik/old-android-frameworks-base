@@ -16,6 +16,8 @@
 
 #define LOG_TAG "OpenGLRenderer"
 
+#include <limits.h>
+
 #include "Debug.h"
 #include "GammaFontRenderer.h"
 #include "Properties.h"

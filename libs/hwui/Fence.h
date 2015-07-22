@@ -20,6 +20,13 @@
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
 
+extern EGLAPI EGLBoolean (*epoxy_eglDestroySyncKHR)(EGLDisplay dpy, EGLSyncKHR sync);
+#define eglDestroySyncKHR epoxy_eglDestroySyncKHR
+extern EGLAPI EGLint (*epoxy_eglClientWaitSyncKHR)(EGLDisplay dpy, EGLSyncKHR sync, EGLint flags, EGLTimeKHR timeout);
+#define eglClientWaitSyncKHR epoxy_eglClientWaitSyncKHR
+extern EGLAPI EGLSyncKHR (*epoxy_eglCreateSyncKHR)(EGLDisplay dpy, EGLenum type, const EGLint * attrib_list);
+#define eglCreateSyncKHR epoxy_eglCreateSyncKHR
+
 namespace android {
 namespace uirenderer {
 

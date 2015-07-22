@@ -15,6 +15,7 @@
  */
 
 #include <sys/sysinfo.h>
+#include <limits.h>
 
 #include "Task.h"
 #include "TaskProcessor.h"

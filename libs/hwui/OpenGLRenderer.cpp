@@ -38,6 +38,9 @@
 #include "Properties.h"
 #include "Vector.h"
 
+extern void (*epoxy_glDiscardFramebufferEXT)(GLenum target, GLsizei numAttachments, const GLenum * attachments);
+#define glDiscardFramebufferEXT epoxy_glDiscardFramebufferEXT
+
 namespace android {
 namespace uirenderer {
 

@@ -111,24 +111,24 @@ void Caches::initFont() {
 }
 
 void Caches::initExtensions() {
-    if (mExtensions.hasDebugMarker()) {
-        eventMark = glInsertEventMarkerEXT;
+//     if (mExtensions.hasDebugMarker()) {
+//         eventMark = glInsertEventMarkerEXT;
 
-        startMark = glPushGroupMarkerEXT;
-        endMark = glPopGroupMarkerEXT;
-    } else {
+//         startMark = glPushGroupMarkerEXT;
+//         endMark = glPopGroupMarkerEXT;
+//     } else {
         eventMark = eventMarkNull;
         startMark = startMarkNull;
         endMark = endMarkNull;
-    }
+//     }
 
-    if (mExtensions.hasDebugLabel() && (drawDeferDisabled || drawReorderDisabled)) {
-        setLabel = glLabelObjectEXT;
-        getLabel = glGetObjectLabelEXT;
-    } else {
+//     if (mExtensions.hasDebugLabel() && (drawDeferDisabled || drawReorderDisabled)) {
+//         setLabel = glLabelObjectEXT;
+//         getLabel = glGetObjectLabelEXT;
+//     } else {
         setLabel = setLabelNull;
         getLabel = getLabelNull;
-    }
+//     }
 }
 
 void Caches::initConstraints() {
@@ -637,13 +637,13 @@ void Caches::resetScissor() {
 
 void Caches::startTiling(GLuint x, GLuint y, GLuint width, GLuint height, bool discard) {
     if (mExtensions.hasTiledRendering() && !debugOverdraw) {
-        glStartTilingQCOM(x, y, width, height, (discard ? GL_NONE : GL_COLOR_BUFFER_BIT0_QCOM));
+//         glStartTilingQCOM(x, y, width, height, (discard ? GL_NONE : GL_COLOR_BUFFER_BIT0_QCOM));
     }
 }
 
 void Caches::endTiling() {
     if (mExtensions.hasTiledRendering() && !debugOverdraw) {
-        glEndTilingQCOM(GL_COLOR_BUFFER_BIT0_QCOM);
+//         glEndTilingQCOM(GL_COLOR_BUFFER_BIT0_QCOM);
     }
 }
 

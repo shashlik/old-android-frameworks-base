@@ -21,6 +21,13 @@
 #include "Caches.h"
 #include "Image.h"
 
+extern EGLAPI void (*epoxy_glEGLImageTargetTexture2DOES)(GLenum target, GLeglImageOES image);
+#define glEGLImageTargetTexture2DOES epoxy_glEGLImageTargetTexture2DOES
+extern EGLAPI EGLBoolean (*epoxy_eglDestroyImageKHR)(EGLDisplay dpy, EGLImageKHR image);
+#define eglDestroyImageKHR epoxy_eglDestroyImageKHR
+extern EGLAPI EGLImageKHR (*epoxy_eglCreateImageKHR)(EGLDisplay dpy, EGLContext ctx, EGLenum target, EGLClientBuffer buffer, const EGLint * attrib_list);
+#define eglCreateImageKHR epoxy_eglCreateImageKHR
+
 namespace android {
 namespace uirenderer {
 

@@ -435,7 +435,7 @@ class ServerThread {
                 }
             }
 
-            if (!disableSystemUI) {
+//             if (!disableSystemUI) {
                 try {
                     Slog.i(TAG, "Status Bar");
                     statusBar = new StatusBarManagerService(context, wm);
@@ -443,7 +443,7 @@ class ServerThread {
                 } catch (Throwable e) {
                     reportWtf("starting StatusBarManagerService", e);
                 }
-            }
+//             }
 
             if (!disableNonCoreServices) {
                 try {

@@ -8849,8 +8849,8 @@ public class View implements Drawable.Callback, KeyEvent.Callback,
      * @param mask Constant indicating the bit range that should be changed
      */
     void setFlags(int flags, int mask) {
-        final boolean accessibilityEnabled =
-                AccessibilityManager.getInstance(mContext).isEnabled();
+        final boolean accessibilityEnabled = false;
+//                 AccessibilityManager.getInstance(mContext).isEnabled();
         final boolean oldIncludeForAccessibility = accessibilityEnabled && includeForAccessibility();
 
         int old = mViewFlags;

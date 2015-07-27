@@ -27,6 +27,7 @@
 #include <GLES/gl.h>
 
 class SkBitmap;
+class WaylandClient;
 
 namespace android {
 
@@ -97,6 +98,7 @@ private:
     sp<Surface> mFlingerSurface;
     bool        mAndroidAnimation;
     ZipFileRO   mZip;
+    WaylandClient* m_waylandClient;
 };
 
 // ---------------------------------------------------------------------------

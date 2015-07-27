@@ -50,7 +50,13 @@
 #include <GLES/glext.h>
 #include <EGL/eglext.h>
 
+#include <WaylandClient.h>
+#include <QCoreApplication>
+
 #include "BootAnimation.h"
+
+extern GL_API void (*epoxy_glDrawTexiOES)(GLint x, GLint y, GLint z, GLint width, GLint height);
+#define glDrawTexiOES epoxy_glDrawTexiOES
 
 #define USER_BOOTANIMATION_FILE "/data/local/bootanimation.zip"
 #define SYSTEM_BOOTANIMATION_FILE "/system/media/bootanimation.zip"
@@ -65,9 +71,13 @@ namespace android {
 
 // ---------------------------------------------------------------------------
 
-BootAnimation::BootAnimation() : Thread(false)
+BootAnimation::BootAnimation() : Thread(false), m_waylandClient(0)
 {
     mSession = new SurfaceComposerClient();
+    m_waylandClient = new WaylandClient();
+    while(m_waylandClient->hasShellSurface() == false) {
+        qApp->processEvents(QEventLoop::WaitForMoreEvents);
+    }
 }
 
 BootAnimation::~BootAnimation() {
@@ -100,8 +110,10 @@ void BootAnimation::binderDied(const wp<IBinder>& who)
 status_t BootAnimation::initTexture(Texture* texture, AssetManager& assets,
         const char* name) {
     Asset* asset = assets.open(name, Asset::ACCESS_BUFFER);
-    if (!asset)
+    if (!asset) {
+        ALOGE("INIT FAIL");
         return NO_INIT;
+    }
     SkBitmap bitmap;
     SkImageDecoder::DecodeMemory(asset->getBuffer(false), asset->getLength(),
             &bitmap, SkBitmap::kNo_Config, SkImageDecoder::kDecodePixels_Mode);
@@ -248,17 +260,20 @@ status_t BootAnimation::readyToRun() {
     EGLSurface surface;
     EGLContext context;
 
-    EGLDisplay display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+    EGLDisplay display = m_waylandClient->display();
 
     eglInitialize(display, 0, 0);
     eglChooseConfig(display, attribs, &config, 1, &numConfigs);
-    surface = eglCreateWindowSurface(display, config, s.get(), NULL);
+//     surface = eglCreateWindowSurface(display, config, s.get(), NULL);
+    surface = m_waylandClient->getSurface(display, config, 640, 480);
     context = eglCreateContext(display, config, NULL, NULL);
     eglQuerySurface(display, surface, EGL_WIDTH, &w);
     eglQuerySurface(display, surface, EGL_HEIGHT, &h);
 
-    if (eglMakeCurrent(display, surface, surface, context) == EGL_FALSE)
+    if (eglMakeCurrent(display, surface, surface, context) == EGL_FALSE) {
+        ALOGE("Make current failed, height and width were supposedly %d and %d", h, w);
         return NO_INIT;
+    }
 
     mDisplay = display;
     mContext = context;

@@ -30,6 +30,8 @@
 # include <sys/resource.h>
 #endif
 
+#include <QCoreApplication>
+
 #include "BootAnimation.h"
 
 using namespace android;
@@ -38,6 +40,7 @@ using namespace android;
 
 int main(int argc, char** argv)
 {
+    QCoreApplication app(argc, argv);
 #if defined(HAVE_PTHREADS)
     setpriority(PRIO_PROCESS, 0, ANDROID_PRIORITY_DISPLAY);
 #endif

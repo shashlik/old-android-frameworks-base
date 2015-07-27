@@ -141,13 +141,13 @@ void android_server_PowerManagerService_goToSleep(nsecs_t eventTime) {
 static void nativeInit(JNIEnv* env, jobject obj) {
     gPowerManagerServiceObj = env->NewGlobalRef(obj);
 
-    status_t err = hw_get_module(POWER_HARDWARE_MODULE_ID,
-            (hw_module_t const**)&gPowerModule);
-    if (!err) {
-        gPowerModule->init(gPowerModule);
-    } else {
-        ALOGE("Couldn't load %s module (%s)", POWER_HARDWARE_MODULE_ID, strerror(-err));
-    }
+//     status_t err = hw_get_module(POWER_HARDWARE_MODULE_ID,
+//             (hw_module_t const**)&gPowerModule);
+//     if (!err) {
+//         gPowerModule->init(gPowerModule);
+//     } else {
+//         ALOGE("Couldn't load %s module (%s)", POWER_HARDWARE_MODULE_ID, strerror(-err));
+//     }
 }
 
 static void nativeSetPowerState(JNIEnv* env,

@@ -198,12 +198,12 @@ public final class AccessibilityManager {
         mService = service;
         mUserId = userId;
 
-        try {
-            final int stateFlags = mService.addClient(mClient, userId);
-            setState(stateFlags);
-        } catch (RemoteException re) {
-            Log.e(LOG_TAG, "AccessibilityManagerService is dead", re);
-        }
+//         try {
+//             final int stateFlags = mService.addClient(mClient, userId);
+//             setState(stateFlags);
+//         } catch (RemoteException re) {
+//             Log.e(LOG_TAG, "AccessibilityManagerService is dead", re);
+//         }
     }
 
     /**

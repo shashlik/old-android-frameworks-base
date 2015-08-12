@@ -58,9 +58,9 @@
 extern GL_API void (*epoxy_glDrawTexiOES)(GLint x, GLint y, GLint z, GLint width, GLint height);
 #define glDrawTexiOES epoxy_glDrawTexiOES
 
-#define USER_BOOTANIMATION_FILE "/data/local/bootanimation.zip"
-#define SYSTEM_BOOTANIMATION_FILE "/system/media/bootanimation.zip"
-#define SYSTEM_ENCRYPTED_BOOTANIMATION_FILE "/system/media/bootanimation-encrypted.zip"
+#define USER_BOOTANIMATION_FILE SHASHLIK_ROOT "/data/local/bootanimation.zip"
+#define SYSTEM_BOOTANIMATION_FILE SHASHLIK_ROOT "/system/media/bootanimation.zip"
+#define SYSTEM_ENCRYPTED_BOOTANIMATION_FILE SHASHLIK_ROOT "/system/media/bootanimation-encrypted.zip"
 #define EXIT_PROP_NAME "service.bootanim.exit"
 
 extern "C" int clock_nanosleep(clockid_t clock_id, int flags,

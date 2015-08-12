@@ -571,7 +571,9 @@ class ServerThread {
                 Slog.i(TAG, "Notification Manager");
                 notification = new NotificationManagerService(context, statusBar, lights);
                 ServiceManager.addService(Context.NOTIFICATION_SERVICE, notification);
-                networkPolicy.bindNotificationManager(notification);
+                if (!disableNetwork) {
+                    networkPolicy.bindNotificationManager(notification);
+                }
             } catch (Throwable e) {
                 reportWtf("starting Notification Manager", e);
             }

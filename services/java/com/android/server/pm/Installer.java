@@ -48,8 +48,8 @@ public final class Installer {
         try {
             mSocket = new LocalSocket();
 
-            LocalSocketAddress address = new LocalSocketAddress("installd",
-                    LocalSocketAddress.Namespace.RESERVED);
+            LocalSocketAddress address = new LocalSocketAddress("/tmp/shashlik-socket/installd",
+                    LocalSocketAddress.Namespace.FILESYSTEM);
 
             mSocket.connect(address);
 

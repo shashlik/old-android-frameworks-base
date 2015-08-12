@@ -847,13 +847,13 @@ public class InputMethodManagerService extends IInputMethodManager.Stub
                 }
                 buildInputMethodListLocked(mMethodList, mMethodMap,
                         !mImeSelectedOnBoot /* resetDefaultEnabledIme */);
-                if (!mImeSelectedOnBoot) {
-                    Slog.w(TAG, "Reset the default IME as \"Resource\" is ready here.");
-                    resetStateIfCurrentLocaleChangedLocked();
-                    InputMethodUtils.setNonSelectedSystemImesDisabledUntilUsed(
-                            mContext.getPackageManager(),
-                            mSettings.getEnabledInputMethodListLocked());
-                }
+//                 if (!mImeSelectedOnBoot) {
+//                     Slog.w(TAG, "Reset the default IME as \"Resource\" is ready here.");
+//                     resetStateIfCurrentLocaleChangedLocked();
+//                     InputMethodUtils.setNonSelectedSystemImesDisabledUntilUsed(
+//                             mContext.getPackageManager(),
+//                             mSettings.getEnabledInputMethodListLocked());
+//                 }
                 mLastSystemLocale = mRes.getConfiguration().locale;
                 try {
                     startInputInnerLocked();

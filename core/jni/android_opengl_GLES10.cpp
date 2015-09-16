@@ -41,22 +41,22 @@ static jfieldID elementSizeShiftID;
 /* special calls implemented in Android's GLES wrapper used to more
  * efficiently bound-check passed arrays */
 extern "C" {
-#ifdef GL_VERSION_ES_CM_1_1
-GL_API void GL_APIENTRY glColorPointerBounds(GLint size, GLenum type, GLsizei stride,
-        const GLvoid *ptr, GLsizei count);
-GL_API void GL_APIENTRY glNormalPointerBounds(GLenum type, GLsizei stride,
-        const GLvoid *pointer, GLsizei count);
-GL_API void GL_APIENTRY glTexCoordPointerBounds(GLint size, GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count);
-GL_API void GL_APIENTRY glVertexPointerBounds(GLint size, GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count);
-GL_API void GL_APIENTRY glPointSizePointerOESBounds(GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count);
-GL_API void GL_APIENTRY glMatrixIndexPointerOESBounds(GLint size, GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count);
-GL_API void GL_APIENTRY glWeightPointerOESBounds(GLint size, GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count);
-#endif
+// #ifdef GL_VERSION_ES_CM_1_1
+// GL_API void GL_APIENTRY glColorPointerBounds(GLint size, GLenum type, GLsizei stride,
+//         const GLvoid *ptr, GLsizei count);
+// GL_API void GL_APIENTRY glNormalPointerBounds(GLenum type, GLsizei stride,
+//         const GLvoid *pointer, GLsizei count);
+// GL_API void GL_APIENTRY glTexCoordPointerBounds(GLint size, GLenum type,
+//         GLsizei stride, const GLvoid *pointer, GLsizei count);
+// GL_API void GL_APIENTRY glVertexPointerBounds(GLint size, GLenum type,
+//         GLsizei stride, const GLvoid *pointer, GLsizei count);
+// GL_API void GL_APIENTRY glPointSizePointerOESBounds(GLenum type,
+//         GLsizei stride, const GLvoid *pointer, GLsizei count);
+// GL_API void GL_APIENTRY glMatrixIndexPointerOESBounds(GLint size, GLenum type,
+//         GLsizei stride, const GLvoid *pointer, GLsizei count);
+// GL_API void GL_APIENTRY glWeightPointerOESBounds(GLint size, GLenum type,
+//         GLsizei stride, const GLvoid *pointer, GLsizei count);
+// #endif
 #ifdef GL_ES_VERSION_2_0
 static void glVertexAttribPointerBounds(GLuint indx, GLint size, GLenum type,
         GLboolean normalized, GLsizei stride, const GLvoid *pointer, GLsizei count) {
@@ -493,13 +493,13 @@ android_glColorPointerBounds__IIILjava_nio_Buffer_2I
             return;
         }
     }
-    glColorPointerBounds(
-        (GLint)size,
-        (GLenum)type,
-        (GLsizei)stride,
-        (GLvoid *)pointer,
-        (GLsizei)remaining
-    );
+//     glColorPointerBounds(
+//         (GLint)size,
+//         (GLenum)type,
+//         (GLsizei)stride,
+//         (GLvoid *)pointer,
+//         (GLsizei)remaining
+//     );
 }
 
 /* void glCompressedTexImage2D ( GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid *data ) */
@@ -2409,12 +2409,12 @@ android_glNormalPointerBounds__IILjava_nio_Buffer_2I
             return;
         }
     }
-    glNormalPointerBounds(
-        (GLenum)type,
-        (GLsizei)stride,
-        (GLvoid *)pointer,
-        (GLsizei)remaining
-    );
+//     glNormalPointerBounds(
+//         (GLenum)type,
+//         (GLsizei)stride,
+//         (GLvoid *)pointer,
+//         (GLsizei)remaining
+//     );
 }
 
 /* void glOrthof ( GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat zNear, GLfloat zFar ) */
@@ -2668,13 +2668,13 @@ android_glTexCoordPointerBounds__IIILjava_nio_Buffer_2I
             return;
         }
     }
-    glTexCoordPointerBounds(
-        (GLint)size,
-        (GLenum)type,
-        (GLsizei)stride,
-        (GLvoid *)pointer,
-        (GLsizei)remaining
-    );
+//     glTexCoordPointerBounds(
+//         (GLint)size,
+//         (GLenum)type,
+//         (GLsizei)stride,
+//         (GLvoid *)pointer,
+//         (GLsizei)remaining
+//     );
 }
 
 /* void glTexEnvf ( GLenum target, GLenum pname, GLfloat param ) */
@@ -3042,13 +3042,13 @@ android_glVertexPointerBounds__IIILjava_nio_Buffer_2I
             return;
         }
     }
-    glVertexPointerBounds(
-        (GLint)size,
-        (GLenum)type,
-        (GLsizei)stride,
-        (GLvoid *)pointer,
-        (GLsizei)remaining
-    );
+//     glVertexPointerBounds(
+//         (GLint)size,
+//         (GLenum)type,
+//         (GLsizei)stride,
+//         (GLvoid *)pointer,
+//         (GLsizei)remaining
+//     );
 }
 
 /* void glViewport ( GLint x, GLint y, GLsizei width, GLsizei height ) */
@@ -3082,7 +3082,7 @@ static JNINativeMethod methods[] = {
 {"glColor4f", "(FFFF)V", (void *) android_glColor4f__FFFF },
 {"glColor4x", "(IIII)V", (void *) android_glColor4x__IIII },
 {"glColorMask", "(ZZZZ)V", (void *) android_glColorMask__ZZZZ },
-{"glColorPointerBounds", "(IIILjava/nio/Buffer;I)V", (void *) android_glColorPointerBounds__IIILjava_nio_Buffer_2I },
+// {"glColorPointerBounds", "(IIILjava/nio/Buffer;I)V", (void *) android_glColorPointerBounds__IIILjava_nio_Buffer_2I },
 {"glCompressedTexImage2D", "(IIIIIIILjava/nio/Buffer;)V", (void *) android_glCompressedTexImage2D__IIIIIIILjava_nio_Buffer_2 },
 {"glCompressedTexSubImage2D", "(IIIIIIIILjava/nio/Buffer;)V", (void *) android_glCompressedTexSubImage2D__IIIIIIIILjava_nio_Buffer_2 },
 {"glCopyTexImage2D", "(IIIIIIII)V", (void *) android_glCopyTexImage2D__IIIIIIII },
@@ -3153,7 +3153,7 @@ static JNINativeMethod methods[] = {
 {"glMultiTexCoord4x", "(IIIII)V", (void *) android_glMultiTexCoord4x__IIIII },
 {"glNormal3f", "(FFF)V", (void *) android_glNormal3f__FFF },
 {"glNormal3x", "(III)V", (void *) android_glNormal3x__III },
-{"glNormalPointerBounds", "(IILjava/nio/Buffer;I)V", (void *) android_glNormalPointerBounds__IILjava_nio_Buffer_2I },
+// {"glNormalPointerBounds", "(IILjava/nio/Buffer;I)V", (void *) android_glNormalPointerBounds__IILjava_nio_Buffer_2I },
 {"glOrthof", "(FFFFFF)V", (void *) android_glOrthof__FFFFFF },
 {"glOrthox", "(IIIIII)V", (void *) android_glOrthox__IIIIII },
 {"glPixelStorei", "(II)V", (void *) android_glPixelStorei__II },
@@ -3175,7 +3175,7 @@ static JNINativeMethod methods[] = {
 {"glStencilFunc", "(III)V", (void *) android_glStencilFunc__III },
 {"glStencilMask", "(I)V", (void *) android_glStencilMask__I },
 {"glStencilOp", "(III)V", (void *) android_glStencilOp__III },
-{"glTexCoordPointerBounds", "(IIILjava/nio/Buffer;I)V", (void *) android_glTexCoordPointerBounds__IIILjava_nio_Buffer_2I },
+// {"glTexCoordPointerBounds", "(IIILjava/nio/Buffer;I)V", (void *) android_glTexCoordPointerBounds__IIILjava_nio_Buffer_2I },
 {"glTexEnvf", "(IIF)V", (void *) android_glTexEnvf__IIF },
 {"glTexEnvfv", "(II[FI)V", (void *) android_glTexEnvfv__II_3FI },
 {"glTexEnvfv", "(IILjava/nio/FloatBuffer;)V", (void *) android_glTexEnvfv__IILjava_nio_FloatBuffer_2 },
@@ -3188,7 +3188,7 @@ static JNINativeMethod methods[] = {
 {"glTexSubImage2D", "(IIIIIIIILjava/nio/Buffer;)V", (void *) android_glTexSubImage2D__IIIIIIIILjava_nio_Buffer_2 },
 {"glTranslatef", "(FFF)V", (void *) android_glTranslatef__FFF },
 {"glTranslatex", "(III)V", (void *) android_glTranslatex__III },
-{"glVertexPointerBounds", "(IIILjava/nio/Buffer;I)V", (void *) android_glVertexPointerBounds__IIILjava_nio_Buffer_2I },
+// {"glVertexPointerBounds", "(IIILjava/nio/Buffer;I)V", (void *) android_glVertexPointerBounds__IIILjava_nio_Buffer_2I },
 {"glViewport", "(IIII)V", (void *) android_glViewport__IIII },
 };
 

@@ -17,8 +17,9 @@
 
 // This source file is automatically generated
 
-#include <GLES/gl.h>
-#include <GLES/glext.h>
+// #include <GLES/gl.h>
+// #include <GLES/glext.h>
+#include <epoxy/gl.h>
 
 #include "jni.h"
 #include "JNIHelp.h"
@@ -41,22 +42,22 @@ static jfieldID elementSizeShiftID;
 /* special calls implemented in Android's GLES wrapper used to more
  * efficiently bound-check passed arrays */
 extern "C" {
-#ifdef GL_VERSION_ES_CM_1_1
-GL_API void GL_APIENTRY glColorPointerBounds(GLint size, GLenum type, GLsizei stride,
-        const GLvoid *ptr, GLsizei count);
-GL_API void GL_APIENTRY glNormalPointerBounds(GLenum type, GLsizei stride,
-        const GLvoid *pointer, GLsizei count);
-GL_API void GL_APIENTRY glTexCoordPointerBounds(GLint size, GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count);
-GL_API void GL_APIENTRY glVertexPointerBounds(GLint size, GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count);
-GL_API void GL_APIENTRY glPointSizePointerOESBounds(GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count);
-GL_API void GL_APIENTRY glMatrixIndexPointerOESBounds(GLint size, GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count);
-GL_API void GL_APIENTRY glWeightPointerOESBounds(GLint size, GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count);
-#endif
+// #ifdef GL_VERSION_ES_CM_1_1
+// GL_API void GL_APIENTRY glColorPointerBounds(GLint size, GLenum type, GLsizei stride,
+//         const GLvoid *ptr, GLsizei count);
+// GL_API void GL_APIENTRY glNormalPointerBounds(GLenum type, GLsizei stride,
+//         const GLvoid *pointer, GLsizei count);
+// GL_API void GL_APIENTRY glTexCoordPointerBounds(GLint size, GLenum type,
+//         GLsizei stride, const GLvoid *pointer, GLsizei count);
+// GL_API void GL_APIENTRY glVertexPointerBounds(GLint size, GLenum type,
+//         GLsizei stride, const GLvoid *pointer, GLsizei count);
+// GL_API void GL_APIENTRY glPointSizePointerOESBounds(GLenum type,
+//         GLsizei stride, const GLvoid *pointer, GLsizei count);
+// GL_API void GL_APIENTRY glMatrixIndexPointerOESBounds(GLint size, GLenum type,
+//         GLsizei stride, const GLvoid *pointer, GLsizei count);
+// GL_API void GL_APIENTRY glWeightPointerOESBounds(GLint size, GLenum type,
+//         GLsizei stride, const GLvoid *pointer, GLsizei count);
+// #endif
 #ifdef GL_ES_VERSION_2_0
 static void glVertexAttribPointerBounds(GLuint indx, GLint size, GLenum type,
         GLboolean normalized, GLsizei stride, const GLvoid *pointer, GLsizei count) {

@@ -17,8 +17,9 @@
 
 // This source file is automatically generated
 
-#include <GLES/gl.h>
-#include <GLES/glext.h>
+// #include <GLES/gl.h>
+// #include <GLES/glext.h>
+#include <epoxy/gl.h>
 
 #include "jni.h"
 #include "JNIHelp.h"
@@ -41,22 +42,22 @@ static jfieldID elementSizeShiftID;
 /* special calls implemented in Android's GLES wrapper used to more
  * efficiently bound-check passed arrays */
 extern "C" {
-#ifdef GL_VERSION_ES_CM_1_1
-GL_API void GL_APIENTRY glColorPointerBounds(GLint size, GLenum type, GLsizei stride,
-        const GLvoid *ptr, GLsizei count);
-GL_API void GL_APIENTRY glNormalPointerBounds(GLenum type, GLsizei stride,
-        const GLvoid *pointer, GLsizei count);
-GL_API void GL_APIENTRY glTexCoordPointerBounds(GLint size, GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count);
-GL_API void GL_APIENTRY glVertexPointerBounds(GLint size, GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count);
-GL_API void GL_APIENTRY glPointSizePointerOESBounds(GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count);
-GL_API void GL_APIENTRY glMatrixIndexPointerOESBounds(GLint size, GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count);
-GL_API void GL_APIENTRY glWeightPointerOESBounds(GLint size, GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count);
-#endif
+// #ifdef GL_VERSION_ES_CM_1_1
+// GL_API void GL_APIENTRY glColorPointerBounds(GLint size, GLenum type, GLsizei stride,
+//         const GLvoid *ptr, GLsizei count);
+// GL_API void GL_APIENTRY glNormalPointerBounds(GLenum type, GLsizei stride,
+//         const GLvoid *pointer, GLsizei count);
+// GL_API void GL_APIENTRY glTexCoordPointerBounds(GLint size, GLenum type,
+//         GLsizei stride, const GLvoid *pointer, GLsizei count);
+// GL_API void GL_APIENTRY glVertexPointerBounds(GLint size, GLenum type,
+//         GLsizei stride, const GLvoid *pointer, GLsizei count);
+// GL_API void GL_APIENTRY glPointSizePointerOESBounds(GLenum type,
+//         GLsizei stride, const GLvoid *pointer, GLsizei count);
+// GL_API void GL_APIENTRY glMatrixIndexPointerOESBounds(GLint size, GLenum type,
+//         GLsizei stride, const GLvoid *pointer, GLsizei count);
+// GL_API void GL_APIENTRY glWeightPointerOESBounds(GLint size, GLenum type,
+//         GLsizei stride, const GLvoid *pointer, GLsizei count);
+// #endif
 #ifdef GL_ES_VERSION_2_0
 static void glVertexAttribPointerBounds(GLuint indx, GLint size, GLenum type,
         GLboolean normalized, GLsizei stride, const GLvoid *pointer, GLsizei count) {
@@ -2780,13 +2781,13 @@ android_glMatrixIndexPointerOESBounds__IIILjava_nio_Buffer_2I
             return;
         }
     }
-    glMatrixIndexPointerOESBounds(
-        (GLint)size,
-        (GLenum)type,
-        (GLsizei)stride,
-        (GLvoid *)pointer,
-        (GLsizei)remaining
-    );
+//     glMatrixIndexPointerOESBounds(
+//         (GLint)size,
+//         (GLenum)type,
+//         (GLsizei)stride,
+//         (GLvoid *)pointer,
+//         (GLsizei)remaining
+//     );
 }
 
 /* void glWeightPointerOES ( GLint size, GLenum type, GLsizei stride, const GLvoid *pointer ) */
@@ -2804,13 +2805,13 @@ android_glWeightPointerOESBounds__IIILjava_nio_Buffer_2I
             return;
         }
     }
-    glWeightPointerOESBounds(
-        (GLint)size,
-        (GLenum)type,
-        (GLsizei)stride,
-        (GLvoid *)pointer,
-        (GLsizei)remaining
-    );
+//     glWeightPointerOESBounds(
+//         (GLint)size,
+//         (GLenum)type,
+//         (GLsizei)stride,
+//         (GLvoid *)pointer,
+//         (GLsizei)remaining
+//     );
 }
 
 /* void glDepthRangefOES ( GLclampf zNear, GLclampf zFar ) */
@@ -3552,8 +3553,8 @@ static JNINativeMethod methods[] = {
 {"glGenerateMipmapOES", "(I)V", (void *) android_glGenerateMipmapOES__I },
 {"glCurrentPaletteMatrixOES", "(I)V", (void *) android_glCurrentPaletteMatrixOES__I },
 {"glLoadPaletteFromModelViewMatrixOES", "()V", (void *) android_glLoadPaletteFromModelViewMatrixOES__ },
-{"glMatrixIndexPointerOESBounds", "(IIILjava/nio/Buffer;I)V", (void *) android_glMatrixIndexPointerOESBounds__IIILjava_nio_Buffer_2I },
-{"glWeightPointerOESBounds", "(IIILjava/nio/Buffer;I)V", (void *) android_glWeightPointerOESBounds__IIILjava_nio_Buffer_2I },
+// {"glMatrixIndexPointerOESBounds", "(IIILjava/nio/Buffer;I)V", (void *) android_glMatrixIndexPointerOESBounds__IIILjava_nio_Buffer_2I },
+// {"glWeightPointerOESBounds", "(IIILjava/nio/Buffer;I)V", (void *) android_glWeightPointerOESBounds__IIILjava_nio_Buffer_2I },
 {"glDepthRangefOES", "(FF)V", (void *) android_glDepthRangefOES__FF },
 {"glFrustumfOES", "(FFFFFF)V", (void *) android_glFrustumfOES__FFFFFF },
 {"glOrthofOES", "(FFFFFF)V", (void *) android_glOrthofOES__FFFFFF },

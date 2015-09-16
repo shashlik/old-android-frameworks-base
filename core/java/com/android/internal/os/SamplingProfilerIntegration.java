@@ -42,7 +42,7 @@ public class SamplingProfilerIntegration {
 
     private static final String TAG = "SamplingProfilerIntegration";
 
-    public static final String SNAPSHOT_DIR = "/data/snapshots";
+    public static final String SNAPSHOT_DIR = "/usr/android/data/snapshots";
 
     private static final boolean enabled;
     private static final Executor snapshotWriter;

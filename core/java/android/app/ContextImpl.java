@@ -982,7 +982,7 @@ class ContextImpl extends Context {
                 mDatabasesDir = new File(getDataDirFile(), "databases");
             }
             if (mDatabasesDir.getPath().equals("databases")) {
-                mDatabasesDir = new File("/data/system");
+                mDatabasesDir = new File("/usr/android/data/system");
             }
             return mDatabasesDir;
         }

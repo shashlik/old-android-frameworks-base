@@ -1330,7 +1330,7 @@ href="{@docRoot}guide/developing/tools/traceview.html">Traceview: A Graphical Lo
     static {
         if (false) {
             final String TAG = "DebugProperties";
-            final String[] files = { "/system/debug.prop", "/debug.prop", "/data/debug.prop" };
+            final String[] files = { "/usr/android/system/debug.prop", "/usr/android/debug.prop", "/usr/android/data/debug.prop" };
             final TypedProperties tp = new TypedProperties();
 
             // Read the properties from each of the files, if present.

@@ -820,7 +820,7 @@ RestoreHelperBase::WriteSnapshot(int fd)
 
 #if TEST_BACKUP_HELPERS
 
-#define SCRATCH_DIR "/data/backup_helper_test/"
+#define SCRATCH_DIR SHASHLIK_ROOT "/data/backup_helper_test/"
 
 static int
 write_text_file(const char* path, const char* data)

@@ -55,8 +55,8 @@ public class Environment {
     @Deprecated
     public static final String DIRECTORY_ANDROID = DIR_ANDROID;
 
-    private static final File DIR_ANDROID_ROOT = getDirectory(ENV_ANDROID_ROOT, "/system");
-    private static final File DIR_MEDIA_STORAGE = getDirectory(ENV_MEDIA_STORAGE, "/data/media");
+    private static final File DIR_ANDROID_ROOT = getDirectory(ENV_ANDROID_ROOT, "/usr/android/system");
+    private static final File DIR_MEDIA_STORAGE = getDirectory(ENV_MEDIA_STORAGE, "/usr/android/data/media");
 
     private static final String CANONCIAL_EMULATED_STORAGE_TARGET = getCanonicalPathOrNull(
             ENV_EMULATED_STORAGE_TARGET);
@@ -306,15 +306,15 @@ public class Environment {
     }
 
     private static final File DATA_DIRECTORY
-            = getDirectory("ANDROID_DATA", "/data");
+            = getDirectory("ANDROID_DATA", "/usr/android/data");
 
     /**
      * @hide
      */
     private static final File SECURE_DATA_DIRECTORY
-            = getDirectory("ANDROID_SECURE_DATA", "/data/secure");
+            = getDirectory("ANDROID_SECURE_DATA", "/usr/android/data/secure");
 
-    private static final File DOWNLOAD_CACHE_DIRECTORY = getDirectory("DOWNLOAD_CACHE", "/cache");
+    private static final File DOWNLOAD_CACHE_DIRECTORY = getDirectory("DOWNLOAD_CACHE", "/usr/android/cache");
 
     /**
      * Return the user data directory.

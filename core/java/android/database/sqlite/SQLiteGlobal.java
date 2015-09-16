@@ -61,7 +61,7 @@ public final class SQLiteGlobal {
     public static int getDefaultPageSize() {
         synchronized (sLock) {
             if (sDefaultPageSize == 0) {
-                sDefaultPageSize = new StatFs("/data").getBlockSize();
+                sDefaultPageSize = new StatFs("/usr/android/data").getBlockSize();
             }
             return SystemProperties.getInt("debug.sqlite.pagesize", sDefaultPageSize);
         }

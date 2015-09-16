@@ -24,7 +24,7 @@ import java.io.IOException;
 public class TZInfoInstallReceiver extends ConfigUpdateInstallReceiver {
 
     public TZInfoInstallReceiver() {
-        super("/data/misc/zoneinfo/", "tzdata", "metadata/", "version");
+        super("/usr/android/data/misc/zoneinfo/", "tzdata", "metadata/", "version");
     }
 
     @Override

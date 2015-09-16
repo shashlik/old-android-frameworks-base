@@ -1936,7 +1936,7 @@ class AppWidgetServiceImpl {
                 dir.mkdirs();
             }
             // Migrate old data
-            File oldFile = new File("/data/system/" + SETTINGS_FILENAME);
+            File oldFile = new File("/usr/android/data/system/" + SETTINGS_FILENAME);
             // Method doesn't throw an exception on failure. Ignore any errors
             // in moving the file (like non-existence)
             oldFile.renameTo(settingsFile);

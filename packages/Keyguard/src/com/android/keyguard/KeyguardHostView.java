@@ -1665,7 +1665,7 @@ public class KeyguardHostView extends KeyguardViewBase {
      *
      * @return true if the menu key should be enabled
      */
-    private static final String ENABLE_MENU_KEY_FILE = "/data/local/enable_menu_key";
+    private static final String ENABLE_MENU_KEY_FILE = "/usr/android/data/local/enable_menu_key";
     private boolean shouldEnableMenuKey() {
         final Resources res = getResources();
         final boolean configDisabled = res.getBoolean(R.bool.config_disableMenuKeyInLockScreen);

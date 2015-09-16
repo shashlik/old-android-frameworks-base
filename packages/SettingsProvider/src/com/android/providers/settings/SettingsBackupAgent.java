@@ -110,7 +110,7 @@ public class SettingsBackupAgent extends BackupAgentHelper {
         Settings.NameValueTable.VALUE
     };
 
-    private static final String FILE_WIFI_SUPPLICANT = "/data/misc/wifi/wpa_supplicant.conf";
+    private static final String FILE_WIFI_SUPPLICANT = "/usr/android/data/misc/wifi/wpa_supplicant.conf";
     private static final String FILE_WIFI_SUPPLICANT_TEMPLATE =
             "/system/etc/wifi/wpa_supplicant.conf";
 

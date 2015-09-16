@@ -2659,7 +2659,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode {
             vibrate();
             SystemClock.sleep(250);
             Log.d(TAG, "startTracing");
-            android.os.Debug.startMethodTracing("/data/statusbar-traces/trace");
+            android.os.Debug.startMethodTracing("/usr/android/data/statusbar-traces/trace");
             mHandler.postDelayed(mStopTracing, 10000);
         }
     };

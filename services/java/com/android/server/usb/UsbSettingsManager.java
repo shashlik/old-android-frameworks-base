@@ -69,7 +69,7 @@ class UsbSettingsManager {
 
     /** Legacy settings file, before multi-user */
     private static final File sSingleUserSettingsFile = new File(
-            "/data/system/usb_device_manager.xml");
+            "/usr/android/data/system/usb_device_manager.xml");
 
     private final UserHandle mUser;
     private final AtomicFile mSettingsFile;

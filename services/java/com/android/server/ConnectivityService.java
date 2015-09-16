@@ -4763,7 +4763,7 @@ public class ConnectivityService extends IConnectivityManager.Stub {
      *  </provisioningUrls>
      */
     private static final String PROVISIONING_URL_PATH =
-            "/data/misc/radio/provisioning_urls.xml";
+            "/usr/android/data/misc/radio/provisioning_urls.xml";
     private final File mProvisioningUrlFile = new File(PROVISIONING_URL_PATH);
 
     /** XML tag for root element. */

@@ -44,7 +44,7 @@ public class SELinuxPolicyInstallReceiver extends ConfigUpdateInstallReceiver {
     private static final String seappContextsPath = "seapp_contexts";
 
     public SELinuxPolicyInstallReceiver() {
-        super("/data/security/bundle", "sepolicy_bundle", "metadata/", "version");
+        super("/usr/android/data/security/bundle", "sepolicy_bundle", "metadata/", "version");
     }
 
     private void backupContexts(File contexts) {

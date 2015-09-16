@@ -47,7 +47,7 @@ public class BootReceiver extends BroadcastReceiver {
     private static final int LOG_SIZE =
         SystemProperties.getInt("ro.debuggable", 0) == 1 ? 98304 : 65536;
 
-    private static final File TOMBSTONE_DIR = new File("/data/tombstones");
+    private static final File TOMBSTONE_DIR = new File("/usr/android/data/tombstones");
 
     // The pre-froyo package and class of the system updater, which
     // ran in the system process.  We need to remove its packages here
@@ -120,11 +120,11 @@ public class BootReceiver extends BroadcastReceiver {
             // Negative sizes mean to take the *tail* of the file (see FileUtils.readTextFile())
             addFileToDropBox(db, prefs, headers, "/proc/last_kmsg",
                     -LOG_SIZE, "SYSTEM_LAST_KMSG");
-            addFileToDropBox(db, prefs, headers, "/cache/recovery/log",
+            addFileToDropBox(db, prefs, headers, "/usr/android/cache/recovery/log",
                     -LOG_SIZE, "SYSTEM_RECOVERY_LOG");
-            addFileToDropBox(db, prefs, headers, "/data/dontpanic/apanic_console",
+            addFileToDropBox(db, prefs, headers, "/usr/android/data/dontpanic/apanic_console",
                     -LOG_SIZE, "APANIC_CONSOLE");
-            addFileToDropBox(db, prefs, headers, "/data/dontpanic/apanic_threads",
+            addFileToDropBox(db, prefs, headers, "/usr/android/data/dontpanic/apanic_threads",
                     -LOG_SIZE, "APANIC_THREADS");
             addAuditErrorsToDropBox(db, prefs, headers, -LOG_SIZE, "SYSTEM_AUDIT");
             addFsckErrorsToDropBox(db, prefs, headers, -LOG_SIZE, "SYSTEM_FSCK");

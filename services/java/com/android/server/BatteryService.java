@@ -94,7 +94,7 @@ public final class BatteryService extends Binder {
     private static final int DUMP_MAX_LENGTH = 24 * 1024;
     private static final String[] DUMPSYS_ARGS = new String[] { "--checkin", "--unplugged" };
 
-    private static final String DUMPSYS_DATA_PATH = "/data/system/";
+    private static final String DUMPSYS_DATA_PATH = "/usr/android/data/system/";
 
     // This should probably be exposed in the API, though it's not critical
     private static final int BATTERY_PLUGGED_NONE = 0;

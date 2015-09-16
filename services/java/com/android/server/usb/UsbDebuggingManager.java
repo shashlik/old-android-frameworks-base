@@ -328,7 +328,7 @@ public class UsbDebuggingManager implements Runnable {
         pw.println("    Last key received: " + mFingerprints);
         pw.println("    User keys:");
         try {
-            pw.println(FileUtils.readTextFile(new File("/data/misc/adb/adb_keys"), 0, null));
+            pw.println(FileUtils.readTextFile(new File("/usr/android/data/misc/adb/adb_keys"), 0, null));
         } catch (IOException e) {
             pw.println("IOException: " + e);
         }

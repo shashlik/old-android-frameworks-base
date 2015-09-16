@@ -1843,6 +1843,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         new String[] { Integer.toString(shortcutValue) });
                 db.insert("bookmarks", null, values);
             }
+        } catch (android.content.res.Resources.NotFoundException e) {
+            Log.w(TAG, "Failed to find the bookmarks resource", e);
         } catch (XmlPullParserException e) {
             Log.w(TAG, "Got execption parsing bookmarks.", e);
         } catch (IOException e) {
@@ -1953,11 +1955,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void loadSettings(SQLiteDatabase db) {
-        loadSystemSettings(db);
-        loadSecureSettings(db);
+        Log.e(TAG, "SHASHLIK Less than hot, this...");
+//         loadSystemSettings(db);
+//         loadSecureSettings(db);
         // The global table only exists for the 'owner' user
         if (mUserHandle == UserHandle.USER_OWNER) {
-            loadGlobalSettings(db);
+//             loadGlobalSettings(db);
         }
     }
 

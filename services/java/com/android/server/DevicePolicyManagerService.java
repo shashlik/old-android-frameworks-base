@@ -802,7 +802,7 @@ public class DevicePolicyManagerService extends IDevicePolicyManager.Stub {
 
     private static JournaledFile makeJournaledFile(int userHandle) {
         final String base = userHandle == 0
-                ? "/data/system/" + DEVICE_POLICIES_XML
+                ? "/usr/android/data/system/" + DEVICE_POLICIES_XML
                 : new File(Environment.getUserSystemDirectory(userHandle), DEVICE_POLICIES_XML)
                         .getAbsolutePath();
         return new JournaledFile(new File(base), new File(base + ".tmp"));

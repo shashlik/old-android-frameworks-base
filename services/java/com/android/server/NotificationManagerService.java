@@ -383,7 +383,7 @@ public class NotificationManagerService extends INotificationManager.Stub
     private void loadBlockDb() {
         synchronized(mBlockedPackages) {
             if (mPolicyFile == null) {
-                File dir = new File("/data/system");
+                File dir = new File("/usr/android/data/system");
                 mPolicyFile = new AtomicFile(new File(dir, "notification_policy.xml"));
 
                 mBlockedPackages.clear();

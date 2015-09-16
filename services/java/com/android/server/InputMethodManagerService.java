@@ -680,7 +680,8 @@ public class InputMethodManagerService extends IInputMethodManager.Stub
         mImListManager = new InputMethodAndSubtypeListManager(context, this);
 
         // Just checking if defaultImiId is empty or not
-        final String defaultImiId = mSettings.getSelectedInputMethod();
+        final String defaultImiId = "";
+        // mSettings.getSelectedInputMethod();
         if (DEBUG) {
             Slog.d(TAG, "Initial default ime = " + defaultImiId);
         }

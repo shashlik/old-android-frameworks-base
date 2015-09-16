@@ -1005,12 +1005,12 @@ public class Vpn extends BaseNetworkStateTracker {
                 }
 
                 // Clear the previous state.
-                File state = new File("/data/misc/vpn/state");
+                File state = new File("/usr/android/data/misc/vpn/state");
                 state.delete();
                 if (state.exists()) {
                     throw new IllegalStateException("Cannot delete the state");
                 }
-                new File("/data/misc/vpn/abort").delete();
+                new File("/usr/android/data/misc/vpn/abort").delete();
                 initFinished = true;
 
                 // Check if we need to restart any of the daemons.

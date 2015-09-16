@@ -71,7 +71,7 @@ final class PersistentDataStore {
     private boolean mDirty;
 
     public PersistentDataStore() {
-        mAtomicFile = new AtomicFile(new File("/data/system/display-manager-state.xml"));
+        mAtomicFile = new AtomicFile(new File("/usr/android/data/system/display-manager-state.xml"));
     }
 
     public void saveIfNeeded() {

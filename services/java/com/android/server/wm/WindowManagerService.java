@@ -9931,7 +9931,7 @@ public class WindowManagerService extends IWindowManager.Stub
         }
 
         if (PROFILE_ORIENTATION) {
-            File file = new File("/data/system/frozen");
+            File file = new File("/usr/android/data/system/frozen");
             Debug.startMethodTracing(file.toString(), 8 * 1024 * 1024);
         }
 

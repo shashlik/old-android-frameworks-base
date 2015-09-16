@@ -323,7 +323,7 @@ public final class DropBoxManagerService extends IDropBoxManagerService.Stub {
             return;
         }
 
-        if (PROFILE_DUMP) Debug.startMethodTracing("/data/trace/dropbox.dump");
+        if (PROFILE_DUMP) Debug.startMethodTracing("/usr/android/data/trace/dropbox.dump");
 
         StringBuilder out = new StringBuilder();
         boolean doPrint = false, doFile = false;

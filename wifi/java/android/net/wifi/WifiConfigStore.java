@@ -118,7 +118,7 @@ class WifiConfigStore {
     private static final boolean DBG = true;
     private static final boolean VDBG = false;
 
-    private static final String SUPPLICANT_CONFIG_FILE = "/data/misc/wifi/wpa_supplicant.conf";
+    private static final String SUPPLICANT_CONFIG_FILE = "/usr/android/data/misc/wifi/wpa_supplicant.conf";
 
     /* configured networks with network id as the key */
     private HashMap<Integer, WifiConfiguration> mConfiguredNetworks =

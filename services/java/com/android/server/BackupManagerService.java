@@ -2700,7 +2700,7 @@ class BackupManagerService extends IBackupManager.Stub {
             }
             mLatchObject = latch;
 
-            mFilesDir = new File("/data/system");
+            mFilesDir = new File("/usr/android/data/system");
             mManifestFile = new File(mFilesDir, BACKUP_MANIFEST_FILENAME);
         }
 

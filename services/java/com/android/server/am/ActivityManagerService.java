@@ -202,10 +202,10 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public final class ActivityManagerService extends ActivityManagerNative
         implements Watchdog.Monitor, BatteryStatsImpl.BatteryCallback {
-    private static final String USER_DATA_DIR = "/data/user/";
+    private static final String USER_DATA_DIR = "/usr/android/data/user/";
     static final String TAG = "ActivityManager";
     static final String TAG_MU = "ActivityManagerServiceMU";
-    static final boolean DEBUG = false;
+    static final boolean DEBUG = true;
     static final boolean localLOGV = DEBUG;
     static final boolean DEBUG_BACKUP = localLOGV || false;
     static final boolean DEBUG_BROADCAST = localLOGV || false;
@@ -1776,8 +1776,8 @@ public final class ActivityManagerService extends ActivityManagerNative
     }
 
     public void startObservingNativeCrashes() {
-//         final NativeCrashListener ncl = new NativeCrashListener();
-//         ncl.start();
+        final NativeCrashListener ncl = new NativeCrashListener();
+        ncl.start();
     }
 
     public static final Context main(int factoryTest) {
@@ -3642,8 +3642,10 @@ public final class ActivityManagerService extends ActivityManagerNative
     private final int getLRURecordIndexForAppLocked(IApplicationThread thread) {
         IBinder threadBinder = thread.asBinder();
         // Find the application record.
+        Slog.e(TAG, "Looking for LRU record for thread " + threadBinder);
         for (int i=mLruProcesses.size()-1; i>=0; i--) {
             ProcessRecord rec = mLruProcesses.get(i);
+            Slog.e(TAG, "Checking entry " + rec.thread);
             if (rec.thread != null && rec.thread.asBinder() == threadBinder) {
                 return i;
             }
@@ -3658,6 +3660,7 @@ public final class ActivityManagerService extends ActivityManagerNative
         }
 
         int appIndex = getLRURecordIndexForAppLocked(thread);
+        Slog.e(TAG, "Getting process record for LRU index " + appIndex);
         return appIndex >= 0 ? mLruProcesses.get(appIndex) : null;
     }
 

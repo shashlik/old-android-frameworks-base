@@ -46,7 +46,7 @@ final class NativeCrashListener extends Thread {
     static final boolean MORE_DEBUG = DEBUG && false;
 
     // Must match the path defined in debuggerd.c.
-    static final String DEBUGGERD_SOCKET_PATH = "/data/system/ndebugsocket";
+    static final String DEBUGGERD_SOCKET_PATH = "/usr/android/data/system/ndebugsocket";
 
     // Use a short timeout on socket operations and abandon the connection
     // on hard errors

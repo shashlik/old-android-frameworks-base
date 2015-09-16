@@ -260,9 +260,12 @@ status_t BootAnimation::readyToRun() {
     EGLSurface surface;
     EGLContext context;
 
-    EGLDisplay display = m_waylandClient->display();
+    EGLDisplay display = eglGetDisplay(m_waylandClient->display());
 
-    eglInitialize(display, 0, 0);
+    if (eglInitialize(display, 0, 0) == EGL_FALSE) {
+        ALOGE("Initialisatio of the EGL display failed, and the error is %s", m_waylandClient->EGLErrorString(eglGetError()));
+        return NO_INIT;
+    }
     eglChooseConfig(display, attribs, &config, 1, &numConfigs);
 //     surface = eglCreateWindowSurface(display, config, s.get(), NULL);
     surface = m_waylandClient->getSurface(display, config, 640, 480);
@@ -271,7 +274,7 @@ status_t BootAnimation::readyToRun() {
     eglQuerySurface(display, surface, EGL_HEIGHT, &h);
 
     if (eglMakeCurrent(display, surface, surface, context) == EGL_FALSE) {
-        ALOGE("Make current failed, height and width were supposedly %d and %d", h, w);
+        ALOGE("Make current failed, height and width were supposedly %d and %d, and the error is %s", h, w, m_waylandClient->EGLErrorString(eglGetError()));
         return NO_INIT;
     }
 

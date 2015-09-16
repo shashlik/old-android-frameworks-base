@@ -4409,6 +4409,12 @@ public final class ActivityThread {
         // any ties in the race.
         holder = installProvider(c, holder, holder.info,
                 true /*noisy*/, holder.noReleaseNeeded, stable);
+
+        // SHASHLIK
+        if(holder == null) {
+            Slog.e(TAG, "Holder is still null for " + auth);
+            return null;
+        }
         return holder.provider;
     }
 
@@ -4772,6 +4778,9 @@ public final class ActivityThread {
                     TAG, "Instantiating local provider " + info.name);
                 // XXX Need to create the correct context for this provider.
                 localProvider.attachInfo(c, info);
+//             } catch (android.content.res.Resources.NotFoundException e) {
+//                 Slog.e(TAG, "ERROR getting the resource, this is all terrible and everything. " + info.name + " was the provider" );
+//                 return null;
             } catch (java.lang.Exception e) {
                 if (!mInstrumentation.onException(null, e)) {
                     throw new RuntimeException(

@@ -284,15 +284,21 @@ final class LogicalDisplay {
         // multiplying the fractions by the product of their denominators before
         // comparing them.
         int displayRectWidth, displayRectHeight;
-        if (physWidth * displayInfo.logicalHeight
-                < physHeight * displayInfo.logicalWidth) {
-            // Letter box.
-            displayRectWidth = physWidth;
-            displayRectHeight = displayInfo.logicalHeight * physWidth / displayInfo.logicalWidth;
-        } else {
-            // Pillar box.
-            displayRectWidth = displayInfo.logicalWidth * physHeight / displayInfo.logicalHeight;
-            displayRectHeight = physHeight;
+        try {
+            if (physWidth * displayInfo.logicalHeight
+                    < physHeight * displayInfo.logicalWidth) {
+                // Letter box.
+                displayRectWidth = physWidth;
+                displayRectHeight = displayInfo.logicalHeight * physWidth / displayInfo.logicalWidth;
+            } else {
+                // Pillar box.
+                displayRectWidth = displayInfo.logicalWidth * physHeight / displayInfo.logicalHeight;
+                displayRectHeight = physHeight;
+            }
+        }
+        catch(ArithmeticException ex) {
+            displayRectWidth = 1;
+            displayRectHeight = 1;
         }
         int displayRectTop = (physHeight - displayRectHeight) / 2;
         int displayRectLeft = (physWidth - displayRectWidth) / 2;

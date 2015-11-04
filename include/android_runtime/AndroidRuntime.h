@@ -28,6 +28,9 @@
 #include <pthread.h>
 #include <nativehelper/jni.h>
 
+#define QT_NO_KEYWORDS
+#include <WaylandClient.h>
+static WaylandClient* waylandClient;
 
 namespace android {
 

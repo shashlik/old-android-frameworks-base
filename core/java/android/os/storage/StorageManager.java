@@ -341,6 +341,9 @@ public class StorageManager {
                 } catch (RemoteException rex) {
                     Log.e(TAG, "Register mBinderListener failed");
                     return;
+                } catch (NullPointerException e) {
+                    Log.e(TAG, "Could not register a storage listener, because storage is broken anyway right now, so let's just not, ok? (come back and fix)");
+                    return;
                 }
             }
             mListeners.add(new ListenerDelegate(listener));
@@ -374,6 +377,9 @@ public class StorageManager {
                 } catch (RemoteException rex) {
                     Log.e(TAG, "Unregister mBinderListener failed");
                     return;
+                } catch (NullPointerException e) {
+                    Log.e(TAG, "Could not unregister a storage listener, because storage is broken anyway right now, so let's just not, ok? (come back and fix)");
+                    return;
                 }
             }
        }
@@ -399,6 +405,10 @@ public class StorageManager {
      */
     public void disableUsbMassStorage() {
         try {
+            if(mMountService == null) {
+                Log.e(TAG, "Failed to disable UMS, because storage is broken anyway right now, so let's just not, ok? (come back and fix)");
+                return;
+            }
             mMountService.setUsbMassStorageEnabled(false);
         } catch (Exception ex) {
             Log.e(TAG, "Failed to disable UMS", ex);
@@ -413,6 +423,10 @@ public class StorageManager {
      */
     public boolean isUsbMassStorageConnected() {
         try {
+            if(mMountService == null) {
+                Log.e(TAG, "Failed to get UMS connection state, because storage is broken anyway right now, so let's just not, ok? (come back and fix)");
+                return false;
+            }
             return mMountService.isUsbMassStorageConnected();
         } catch (Exception ex) {
             Log.e(TAG, "Failed to get UMS connection state", ex);
@@ -431,6 +445,8 @@ public class StorageManager {
             return mMountService.isUsbMassStorageEnabled();
         } catch (RemoteException rex) {
             Log.e(TAG, "Failed to get UMS enable state", rex);
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Failed to get UMS enable state, because storage is broken anyway right now, so let's just not, ok? (come back and fix)");
         }
         return false;
     }
@@ -469,6 +485,8 @@ public class StorageManager {
             throw new IllegalArgumentException("Failed to resolve path: " + rawPath, e);
         } catch (RemoteException e) {
             Log.e(TAG, "Failed to mount OBB", e);
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Failed to mount OBB, because storage is broken anyway right now, so let's just not, ok? (come back and fix)");
         }
 
         return false;
@@ -504,6 +522,8 @@ public class StorageManager {
             return true;
         } catch (RemoteException e) {
             Log.e(TAG, "Failed to mount OBB", e);
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Failed to unmount OBB, because storage is broken anyway right now, so let's just not, ok? (come back and fix)");
         }
 
         return false;
@@ -522,6 +542,8 @@ public class StorageManager {
             return mMountService.isObbMounted(rawPath);
         } catch (RemoteException e) {
             Log.e(TAG, "Failed to check if OBB is mounted", e);
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Failed to check if OBB is mounted, because storage is broken anyway right now, so let's just not, ok? (come back and fix)");
         }
 
         return false;
@@ -543,6 +565,8 @@ public class StorageManager {
             return mMountService.getMountedObbPath(rawPath);
         } catch (RemoteException e) {
             Log.e(TAG, "Failed to find mounted path for OBB", e);
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Failed to find mounted path for OBB, because storage is broken anyway right now, so let's just not, ok? (come back and fix)");
         }
 
         return null;
@@ -558,6 +582,9 @@ public class StorageManager {
             return mMountService.getVolumeState(mountPoint);
         } catch (RemoteException e) {
             Log.e(TAG, "Failed to get volume state", e);
+            return null;
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Failed to get volume state, because storage is broken anyway right now, so let's just not, ok? (come back and fix)");
             return null;
         }
     }

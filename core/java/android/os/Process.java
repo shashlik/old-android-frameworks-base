@@ -463,6 +463,7 @@ public class Process {
                 sPreviousZygoteOpenFailed = false;
                 break;
             } catch (IOException ex) {
+                Log.e(LOG_TAG, "Failed to open zygote socket:", ex);
                 if (sZygoteSocket != null) {
                     try {
                         sZygoteSocket.close();

@@ -8461,7 +8461,7 @@ public final class ActivityManagerService extends ActivityManagerNative
             boolean isDebuggable = "1".equals(SystemProperties.get(SYSTEM_DEBUGGABLE, "0"));
             if (!isDebuggable) {
                 if ((app.flags&ApplicationInfo.FLAG_DEBUGGABLE) == 0) {
-                    throw new SecurityException("Process not debuggable: " + app.packageName);
+//                     throw new SecurityException("Process not debuggable: " + app.packageName);
                 }
             }
 
@@ -8475,7 +8475,7 @@ public final class ActivityManagerService extends ActivityManagerNative
             boolean isDebuggable = "1".equals(SystemProperties.get(SYSTEM_DEBUGGABLE, "0"));
             if (!isDebuggable) {
                 if ((app.flags&ApplicationInfo.FLAG_DEBUGGABLE) == 0) {
-                    throw new SecurityException("Process not debuggable: " + app.packageName);
+//                     throw new SecurityException("Process not debuggable: " + app.packageName);
                 }
             }
             mProfileApp = processName;
@@ -13019,27 +13019,27 @@ public final class ActivityManagerService extends ActivityManagerNative
         synchronized(this) {
             ProcessRecord callerApp = null;
             Slog.e(TAG, "BORKEN! This really should not be like this, but it makes things work for now.");
-//             if (caller != null) {
-//                 callerApp = getRecordForAppLocked(caller);
-//                 if (callerApp == null) {
-//                     throw new SecurityException(
-//                             "Unable to find app for caller " + caller
-//                             + " (pid=" + Binder.getCallingPid()
-//                             + ") when registering receiver " + receiver);
-//                 }
-//                 if (callerApp.info.uid != Process.SYSTEM_UID &&
-//                         !callerApp.pkgList.containsKey(callerPackage) &&
-//                         !"android".equals(callerPackage)) {
-//                     throw new SecurityException("Given caller package " + callerPackage
-//                             + " is not running in process " + callerApp);
-//                 }
-//                 callingUid = callerApp.info.uid;
-//                 callingPid = callerApp.pid;
-//             } else {
+            if (caller != null) {
+                callerApp = getRecordForAppLocked(caller);
+                if (callerApp == null) {
+                    throw new SecurityException(
+                            "Unable to find app for caller " + caller
+                            + " (pid=" + Binder.getCallingPid()
+                            + ") when registering receiver " + receiver);
+                }
+                if (callerApp.info.uid != Process.SYSTEM_UID &&
+                        !callerApp.pkgList.containsKey(callerPackage) &&
+                        !"android".equals(callerPackage)) {
+                    throw new SecurityException("Given caller package " + callerPackage
+                            + " is not running in process " + callerApp);
+                }
+                callingUid = callerApp.info.uid;
+                callingPid = callerApp.pid;
+            } else {
                 callerPackage = null;
                 callingUid = Binder.getCallingUid();
                 callingPid = Binder.getCallingPid();
-//             }
+            }
 
             userId = this.handleIncomingUser(callingPid, callingUid, userId,
                     true, true, "registerReceiver", callerPackage);
@@ -15995,7 +15995,7 @@ public final class ActivityManagerService extends ActivityManagerNative
                 boolean isDebuggable = "1".equals(SystemProperties.get(SYSTEM_DEBUGGABLE, "0"));
                 if (!isDebuggable) {
                     if ((proc.info.flags&ApplicationInfo.FLAG_DEBUGGABLE) == 0) {
-                        throw new SecurityException("Process not debuggable: " + proc);
+//                         throw new SecurityException("Process not debuggable: " + proc);
                     }
                 }
 

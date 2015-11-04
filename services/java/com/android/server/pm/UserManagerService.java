@@ -234,8 +234,8 @@ public class UserManagerService extends IUserManager.Stub {
 
     void systemReady() {
         final Context context = ActivityThread.systemMain().getSystemContext();
-        mUserPackageMonitor.register(context,
-                null, UserHandle.ALL, false);
+//         mUserPackageMonitor.register(context,
+//                 null, UserHandle.ALL, false);
         userForeground(UserHandle.USER_OWNER);
     }
 

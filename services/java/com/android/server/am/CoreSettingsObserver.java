@@ -40,7 +40,7 @@ final class CoreSettingsObserver extends ContentObserver {
     private static final Map<String, Class<?>> sCoreSettingToTypeMap = new HashMap<
             String, Class<?>>();
     static {
-        sCoreSettingToTypeMap.put(Settings.Secure.LONG_PRESS_TIMEOUT, int.class);
+//         sCoreSettingToTypeMap.put(Settings.Secure.LONG_PRESS_TIMEOUT, int.class);
         // add other core settings here...
     }
 

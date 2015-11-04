@@ -720,6 +720,8 @@ public class Environment {
             }
         } catch (RemoteException e) {
             Log.w(TAG, "Failed to find external storage state: " + e);
+        } catch (NullPointerException e) {
+            Log.w(TAG, "Failed to find external storage state, because storage is broken anyway right now, so let's just not, ok? (come back and fix): " + e);
         }
         return Environment.MEDIA_UNKNOWN;
     }

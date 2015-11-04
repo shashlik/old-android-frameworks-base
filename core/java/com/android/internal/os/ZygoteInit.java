@@ -236,12 +236,16 @@ public class ZygoteInit {
     static void preload() {
         preloadClasses();
         preloadResources();
+        Log.i(TAG, "About to preload OpenGL");
         preloadOpenGL();
+        Log.i(TAG, "OpenGL preload completed");
     }
 
     private static void preloadOpenGL() {
         if (!SystemProperties.getBoolean(PROPERTY_DISABLE_OPENGL_PRELOADING, false)) {
+            Log.i(TAG, "Before EGL14 get display call...");
             EGL14.eglGetDisplay(EGL14.EGL_DEFAULT_DISPLAY);
+            Log.i(TAG, "After EGL14 get display call...");
         }
     }
 
@@ -520,12 +524,14 @@ public class ZygoteInit {
 
         int pid;
 
+        Log.i(TAG, "Init system server connection");
         try {
             parsedArgs = new ZygoteConnection.Arguments(args);
             ZygoteConnection.applyDebuggerSystemProperty(parsedArgs);
             ZygoteConnection.applyInvokeWithSystemProperty(parsedArgs);
 
             /* Request to fork the system server process */
+            Log.i(TAG, "Request to fork the system server process");
             pid = Zygote.forkSystemServer(
                     parsedArgs.uid, parsedArgs.gid,
                     parsedArgs.gids,
@@ -537,6 +543,7 @@ public class ZygoteInit {
             throw new RuntimeException(ex);
         }
 
+        Log.i(TAG, "For child processes (handle system server process)");
         /* For child process */
         if (pid == 0) {
             handleSystemServerProcess(parsedArgs);
@@ -571,21 +578,26 @@ public class ZygoteInit {
             EventLog.writeEvent(LOG_BOOT_PROGRESS_PRELOAD_END,
                 SystemClock.uptimeMillis());
 
+            Log.i(TAG, "Finish profiling the zygote initialization.");
             // Finish profiling the zygote initialization.
             SamplingProfilerIntegration.writeZygoteSnapshot();
 
+            Log.i(TAG, "Do an initial gc to clean up after startup");
             // Do an initial gc to clean up after startup
             gc();
 
+            Log.i(TAG, "Disable tracing so that forked processes do not inherit stale tracing tags from Zygote");
             // Disable tracing so that forked processes do not inherit stale tracing tags from
             // Zygote.
             Trace.setTracingEnabled(false);
 
+            Log.i(TAG, "If requested, start system server directly from Zygote");
             // If requested, start system server directly from Zygote
             if (argv.length != 2) {
                 throw new RuntimeException(argv[0] + USAGE_STRING);
             }
 
+            Log.i(TAG, "Start system server");
             if (argv[1].equals("start-system-server")) {
                 startSystemServer();
             } else if (!argv[1].equals("")) {

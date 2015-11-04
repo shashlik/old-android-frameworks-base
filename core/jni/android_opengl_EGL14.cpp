@@ -53,8 +53,6 @@ static jobject eglNoContextObject;
 static jobject eglNoDisplayObject;
 static jobject eglNoSurfaceObject;
 
-
-
 /* Cache method IDs each time the class is loaded. */
 
 static void
@@ -144,9 +142,10 @@ static jobject
 android_eglGetDisplay
   (JNIEnv *_env, jobject _this, jint display_id) {
     EGLDisplay _returnValue = (EGLDisplay) 0;
-    _returnValue = eglGetDisplay(
-        (EGLNativeDisplayType)display_id
-    );
+//     _returnValue = eglGetDisplay(
+//         (EGLNativeDisplayType)display_id
+//     );
+    _returnValue = eglGetDisplay(waylandClient->display());
     return toEGLHandle(_env, egldisplayClass, egldisplayConstructor, _returnValue);
 }
 

@@ -21,8 +21,7 @@
 #include <android_runtime/android_graphics_SurfaceTexture.h>
 #include <utils/misc.h>
 
-
-#include <EGL/egl_display.h>
+// #include <EGL/egl_display.h>
 #include <EGL/egl.h>
 #include <GLES/gl.h>
 
@@ -177,9 +176,11 @@ static jboolean jni_eglQuerySurface(JNIEnv *_env, jobject _this, jobject display
 }
 
 static jint jni_getInitCount(JNIEnv *_env, jobject _clazz, jobject display) {
-    EGLDisplay dpy = getDisplay(_env, display);
-    egl_display_t* eglDisplay = get_display_nowake(dpy);
-    return eglDisplay ? eglDisplay->getRefsCount() : 0;
+//     EGLDisplay dpy = getDisplay(_env, display);
+//     egl_display_t* eglDisplay = get_display_nowake(dpy);
+//     return eglDisplay ? eglDisplay->getRefsCount() : 0;
+    // SHASHLIK (this should be sorted... need reference counting, apparently...)
+    return 0;
 }
 
 static jboolean jni_eglReleaseThread(JNIEnv *_env, jobject _this) {
@@ -262,51 +263,52 @@ static PixelFormat convertPixelFormat(SkBitmap::Config format)
     }
 }
 
-static void jni_eglCreatePixmapSurface(JNIEnv *_env, jobject _this, jobject out_sur,
-        jobject display, jobject config, jobject native_pixmap,
-        jintArray attrib_list)
-{
-    if (display == NULL || config == NULL || native_pixmap == NULL
-        || !validAttribList(_env, attrib_list)) {
-        jniThrowException(_env, "java/lang/IllegalArgumentException", NULL);
-        return;
-    }
-    EGLDisplay dpy = getDisplay(_env, display);
-    EGLConfig  cnf = getConfig(_env, config);
-    jint* base = 0;
-
-    SkBitmap const * nativeBitmap =
-            (SkBitmap const *)_env->GetIntField(native_pixmap,
-                    gBitmap_NativeBitmapFieldID);
-    SkPixelRef* ref = nativeBitmap ? nativeBitmap->pixelRef() : 0;
-    if (ref == NULL) {
-        jniThrowException(_env, "java/lang/IllegalArgumentException", "Bitmap has no PixelRef");
-        return;
-    }
-
-    SkSafeRef(ref);
-    ref->lockPixels();
-
-    egl_native_pixmap_t pixmap;
-    pixmap.version = sizeof(pixmap);
-    pixmap.width  = nativeBitmap->width();
-    pixmap.height = nativeBitmap->height();
-    pixmap.stride = nativeBitmap->rowBytes() / nativeBitmap->bytesPerPixel();
-    pixmap.format = convertPixelFormat(nativeBitmap->config());
-    pixmap.data   = (uint8_t*)ref->pixels();
-
-    base = beginNativeAttribList(_env, attrib_list);
-    EGLSurface sur = eglCreatePixmapSurface(dpy, cnf, &pixmap, base);
-    endNativeAttributeList(_env, attrib_list, base);
-
-    if (sur != EGL_NO_SURFACE) {
-        _env->SetIntField(out_sur, gSurface_EGLSurfaceFieldID, (int)sur);
-        _env->SetIntField(out_sur, gSurface_NativePixelRefFieldID, (int)ref);
-    } else {
-        ref->unlockPixels();
-        SkSafeUnref(ref);
-    }
-}
+// static void jni_eglCreatePixmapSurface(JNIEnv *_env, jobject _this, jobject out_sur,
+//         jobject display, jobject config, jobject native_pixmap,
+//         jintArray attrib_list)
+// {
+//     if (display == NULL || config == NULL || native_pixmap == NULL
+//         || !validAttribList(_env, attrib_list)) {
+//         jniThrowException(_env, "java/lang/IllegalArgumentException", NULL);
+//         return;
+//     }
+//     EGLDisplay dpy = getDisplay(_env, display);
+//     EGLConfig  cnf = getConfig(_env, config);
+//     jint* base = 0;
+// 
+//     SkBitmap const * nativeBitmap =
+//             (SkBitmap const *)_env->GetIntField(native_pixmap,
+//                     gBitmap_NativeBitmapFieldID);
+//     SkPixelRef* ref = nativeBitmap ? nativeBitmap->pixelRef() : 0;
+//     if (ref == NULL) {
+//         jniThrowException(_env, "java/lang/IllegalArgumentException", "Bitmap has no PixelRef");
+//         return;
+//     }
+// 
+//     SkSafeRef(ref);
+//     ref->lockPixels();
+// 
+// //     egl_native_pixmap_t pixmap;
+//     EGLNativePixmapType pixmap;
+//     pixmap->version = sizeof(pixmap);
+//     pixmap->width  = nativeBitmap->width();
+//     pixmap->height = nativeBitmap->height();
+//     pixmap->stride = nativeBitmap->rowBytes() / nativeBitmap->bytesPerPixel();
+//     pixmap->format = convertPixelFormat(nativeBitmap->config());
+//     pixmap->data   = (uint8_t*)ref->pixels();
+// 
+//     base = beginNativeAttribList(_env, attrib_list);
+//     EGLSurface sur = eglCreatePixmapSurface(dpy, cnf, pixmap, base);
+//     endNativeAttributeList(_env, attrib_list, base);
+// 
+//     if (sur != EGL_NO_SURFACE) {
+//         _env->SetIntField(out_sur, gSurface_EGLSurfaceFieldID, (int)sur);
+//         _env->SetIntField(out_sur, gSurface_NativePixelRefFieldID, (int)ref);
+//     } else {
+//         ref->unlockPixels();
+//         SkSafeUnref(ref);
+//     }
+// }
 
 static jint jni_eglCreateWindowSurface(JNIEnv *_env, jobject _this, jobject display,
         jobject config, jobject native_window, jintArray attrib_list) {
@@ -317,22 +319,23 @@ static jint jni_eglCreateWindowSurface(JNIEnv *_env, jobject _this, jobject disp
     }
     EGLDisplay dpy = getDisplay(_env, display);
     EGLContext cnf = getConfig(_env, config);
-    sp<ANativeWindow> window;
-    if (native_window == NULL) {
-not_valid_surface:
-        jniThrowException(_env, "java/lang/IllegalArgumentException",
-                "Make sure the SurfaceView or associated SurfaceHolder has a valid Surface");
-        return 0;
-    }
-
-    window = android_view_Surface_getNativeWindow(_env, native_window);
-    if (window == NULL)
-        goto not_valid_surface;
-
-    jint* base = beginNativeAttribList(_env, attrib_list);
-    EGLSurface sur = eglCreateWindowSurface(dpy, cnf, window.get(), base);
-    endNativeAttributeList(_env, attrib_list, base);
-    return (jint)sur;
+    return (jint)waylandClient->getSurface(dpy, cnf, 480, 640);
+//     sp<ANativeWindow> window;
+//     if (native_window == NULL) {
+// not_valid_surface:
+//         jniThrowException(_env, "java/lang/IllegalArgumentException",
+//                 "Make sure the SurfaceView or associated SurfaceHolder has a valid Surface");
+//         return 0;
+//     }
+// 
+//     window = android_view_Surface_getNativeWindow(_env, native_window);
+//     if (window == NULL)
+//         goto not_valid_surface;
+// 
+//     jint* base = beginNativeAttribList(_env, attrib_list);
+//     EGLSurface sur = eglCreateWindowSurface(dpy, cnf, window.get(), base);
+//     endNativeAttributeList(_env, attrib_list, base);
+//     return (jint)sur;
 }
 
 static jint jni_eglCreateWindowSurfaceTexture(JNIEnv *_env, jobject _this, jobject display,
@@ -344,23 +347,24 @@ static jint jni_eglCreateWindowSurfaceTexture(JNIEnv *_env, jobject _this, jobje
     }
     EGLDisplay dpy = getDisplay(_env, display);
     EGLContext cnf = getConfig(_env, config);
-    sp<ANativeWindow> window;
-    if (native_window == 0) {
-not_valid_surface:
-        jniThrowException(_env, "java/lang/IllegalArgumentException",
-                "Make sure the SurfaceTexture is valid");
-        return 0;
-    }
-
-    sp<IGraphicBufferProducer> producer(SurfaceTexture_getProducer(_env, native_window));
-    window = new Surface(producer, true);
-    if (window == NULL)
-        goto not_valid_surface;
-
-    jint* base = beginNativeAttribList(_env, attrib_list);
-    EGLSurface sur = eglCreateWindowSurface(dpy, cnf, window.get(), base);
-    endNativeAttributeList(_env, attrib_list, base);
-    return (jint)sur;
+    return (jint)waylandClient->getSurface(dpy, cnf, 480, 640);
+//     sp<ANativeWindow> window;
+//     if (native_window == 0) {
+// not_valid_surface:
+//         jniThrowException(_env, "java/lang/IllegalArgumentException",
+//                 "Make sure the SurfaceTexture is valid");
+//         return 0;
+//     }
+// 
+//     sp<IGraphicBufferProducer> producer(SurfaceTexture_getProducer(_env, native_window));
+//     window = new Surface(producer, true);
+//     if (window == NULL)
+//         goto not_valid_surface;
+// 
+//     jint* base = beginNativeAttribList(_env, attrib_list);
+//     EGLSurface sur = eglCreateWindowSurface(dpy, cnf, window.get(), base);
+//     endNativeAttributeList(_env, attrib_list, base);
+//     return (jint)sur;
 }
 
 static jboolean jni_eglGetConfigAttrib(JNIEnv *_env, jobject _this, jobject display,
@@ -459,7 +463,8 @@ static jboolean jni_eglDestroySurface(JNIEnv *_env, jobject _this, jobject displ
 }
 
 static jint jni_eglGetDisplay(JNIEnv *_env, jobject _this, jobject native_display) {
-    return (jint)eglGetDisplay(EGL_DEFAULT_DISPLAY);
+//     return (jint)eglGetDisplay(EGL_DEFAULT_DISPLAY);
+    return (jint)eglGetDisplay(waylandClient->display());
 }
 
 static jboolean jni_eglMakeCurrent(JNIEnv *_env, jobject _this, jobject display, jobject draw, jobject read, jobject context) {
@@ -552,7 +557,7 @@ static JNINativeMethod methods[] = {
 {"_eglGetCurrentDisplay",  "()I", (void*)jni_eglGetCurrentDisplay },
 {"_eglGetCurrentSurface",  "(I)I", (void*)jni_eglGetCurrentSurface },
 {"_eglCreatePbufferSurface","(" DISPLAY CONFIG "[I)I", (void*)jni_eglCreatePbufferSurface },
-{"_eglCreatePixmapSurface", "(" SURFACE DISPLAY CONFIG OBJECT "[I)V", (void*)jni_eglCreatePixmapSurface },
+// {"_eglCreatePixmapSurface", "(" SURFACE DISPLAY CONFIG OBJECT "[I)V", (void*)jni_eglCreatePixmapSurface },
 {"_eglCreateWindowSurface", "(" DISPLAY CONFIG OBJECT "[I)I", (void*)jni_eglCreateWindowSurface },
 {"_eglCreateWindowSurfaceTexture", "(" DISPLAY CONFIG OBJECT "[I)I", (void*)jni_eglCreateWindowSurfaceTexture },
 {"eglDestroyContext",      "(" DISPLAY CONTEXT ")Z", (void*)jni_eglDestroyContext },

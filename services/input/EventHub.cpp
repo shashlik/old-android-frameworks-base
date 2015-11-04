@@ -20,7 +20,7 @@
 
 #include "EventHub.h"
 
-// #include <hardware_legacy/power.h>
+#include <hardware_legacy/power.h>
 
 #include <cutils/properties.h>
 #include <utils/Log.h>
@@ -201,7 +201,7 @@ EventHub::EventHub(void) :
         mNeedToSendFinishedDeviceScan(false),
         mNeedToReopenDevices(false), mNeedToScanDevices(true),
         mPendingEventCount(0), mPendingEventIndex(0), mPendingINotify(false) {
-//     acquire_wake_lock(PARTIAL_WAKE_LOCK, WAKE_LOCK_ID);
+    acquire_wake_lock(PARTIAL_WAKE_LOCK, WAKE_LOCK_ID);
 
     mEpollFd = epoll_create(EPOLL_SIZE_HINT);
     LOG_ALWAYS_FATAL_IF(mEpollFd < 0, "Could not create epoll instance.  errno=%d", errno);
@@ -253,7 +253,7 @@ EventHub::~EventHub(void) {
     ::close(mWakeReadPipeFd);
     ::close(mWakeWritePipeFd);
 
-//     release_wake_lock(WAKE_LOCK_ID);
+    release_wake_lock(WAKE_LOCK_ID);
 }
 
 InputDeviceIdentifier EventHub::getDeviceIdentifier(int32_t deviceId) const {
@@ -916,11 +916,11 @@ size_t EventHub::getEvents(int timeoutMillis, RawEvent* buffer, size_t bufferSiz
         mPendingEventIndex = 0;
 
         mLock.unlock(); // release lock before poll, must be before release_wake_lock
-//         release_wake_lock(WAKE_LOCK_ID);
+        release_wake_lock(WAKE_LOCK_ID);
 
         int pollResult = epoll_wait(mEpollFd, mPendingEventItems, EPOLL_MAX_EVENTS, timeoutMillis);
 
-//         acquire_wake_lock(PARTIAL_WAKE_LOCK, WAKE_LOCK_ID);
+        acquire_wake_lock(PARTIAL_WAKE_LOCK, WAKE_LOCK_ID);
         mLock.lock(); // reacquire lock after poll, must be after acquire_wake_lock
 
         if (pollResult == 0) {

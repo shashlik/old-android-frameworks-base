@@ -473,6 +473,8 @@ public class AudioManager {
             service.dispatchMediaKeyEvent(keyEvent);
         } catch (RemoteException e) {
             Log.e(TAG, "dispatchMediaKeyEvent threw exception ", e);
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in dispatchMediaKeyEvent, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
         }
     }
 
@@ -598,6 +600,8 @@ public class AudioManager {
             }
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in adjustStreamVolume", e);
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in adjustStreamVolume, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
         }
     }
 
@@ -628,6 +632,8 @@ public class AudioManager {
             }
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in adjustVolume", e);
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in adjustVolume, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
         }
     }
 
@@ -659,6 +665,8 @@ public class AudioManager {
             }
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in adjustSuggestedStreamVolume", e);
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in adjustSuggestedStreamVolume, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
         }
     }
 
@@ -677,6 +685,8 @@ public class AudioManager {
             service.adjustMasterVolume(steps, flags, mContext.getOpPackageName());
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in adjustMasterVolume", e);
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in adjustMasterVolume, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
         }
     }
 
@@ -693,6 +703,9 @@ public class AudioManager {
             return service.getRingerMode();
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in getRingerMode", e);
+            return RINGER_MODE_NORMAL;
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in getRingerMode, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
             return RINGER_MODE_NORMAL;
         }
     }
@@ -730,6 +743,9 @@ public class AudioManager {
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in getStreamMaxVolume", e);
             return 0;
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in getStreamMaxVolume, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
+            return 0;
         }
     }
 
@@ -752,6 +768,9 @@ public class AudioManager {
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in getStreamVolume", e);
             return 0;
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in getStreamVolume, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
+            return 0;
         }
     }
 
@@ -771,6 +790,9 @@ public class AudioManager {
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in getLastAudibleStreamVolume", e);
             return 0;
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in getLastAudibleStreamVolume, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
+            return 0;
         }
     }
 
@@ -785,6 +807,9 @@ public class AudioManager {
             return service.getMasterStreamType();
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in getMasterStreamType", e);
+            return STREAM_RING;
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in getMasterStreamType, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
             return STREAM_RING;
         }
     }
@@ -809,6 +834,8 @@ public class AudioManager {
             service.setRingerMode(ringerMode);
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in setRingerMode", e);
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in setRingerMode, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
         }
     }
 
@@ -832,6 +859,8 @@ public class AudioManager {
             }
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in setStreamVolume", e);
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in setStreamVolume, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
         }
     }
 
@@ -846,6 +875,9 @@ public class AudioManager {
             return service.getMasterMaxVolume();
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in getMasterMaxVolume", e);
+            return 0;
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in getMasterMaxVolume, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
             return 0;
         }
     }
@@ -863,6 +895,9 @@ public class AudioManager {
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in getMasterVolume", e);
             return 0;
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in getMasterVolume, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
+            return 0;
         }
     }
 
@@ -877,6 +912,9 @@ public class AudioManager {
             return service.getLastAudibleMasterVolume();
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in getLastAudibleMasterVolume", e);
+            return 0;
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in getLastAudibleMasterVolume, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
             return 0;
         }
     }
@@ -897,6 +935,8 @@ public class AudioManager {
             service.setMasterVolume(index, flags, mContext.getOpPackageName());
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in setMasterVolume", e);
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in setMasterVolume, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
         }
     }
 
@@ -923,6 +963,8 @@ public class AudioManager {
             service.setStreamSolo(streamType, state, mICallBack);
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in setStreamSolo", e);
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in setStreamSolo, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
         }
     }
 
@@ -952,6 +994,8 @@ public class AudioManager {
             service.setStreamMute(streamType, state, mICallBack);
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in setStreamMute", e);
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in setStreamMute, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
         }
     }
 
@@ -966,6 +1010,9 @@ public class AudioManager {
             return service.isStreamMute(streamType);
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in isStreamMute", e);
+            return false;
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in isStreamMute, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
             return false;
         }
     }
@@ -990,6 +1037,8 @@ public class AudioManager {
             service.setMasterMute(state, flags, mICallBack);
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in setMasterMute", e);
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in setMasterMute, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
         }
     }
 
@@ -1004,6 +1053,9 @@ public class AudioManager {
             return service.isMasterMute();
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in isMasterMute", e);
+            return false;
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in isMasterMute, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
             return false;
         }
     }
@@ -1021,6 +1073,8 @@ public class AudioManager {
             service.forceVolumeControlStream(streamType, mICallBack);
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in forceVolumeControlStream", e);
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in forceVolumeControlStream, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
         }
     }
 
@@ -1050,6 +1104,9 @@ public class AudioManager {
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in shouldVibrate", e);
             return false;
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in shouldVibrate, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
+            return false;
         }
     }
 
@@ -1076,6 +1133,9 @@ public class AudioManager {
             return service.getVibrateSetting(vibrateType);
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in getVibrateSetting", e);
+            return VIBRATE_SETTING_OFF;
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in getVibrateSetting, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
             return VIBRATE_SETTING_OFF;
         }
     }
@@ -1104,6 +1164,8 @@ public class AudioManager {
             service.setVibrateSetting(vibrateType, vibrateSetting);
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in setVibrateSetting", e);
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in setVibrateSetting, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
         }
     }
 
@@ -1122,6 +1184,8 @@ public class AudioManager {
             service.setSpeakerphoneOn(on);
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in setSpeakerphoneOn", e);
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in setSpeakerphoneOn, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
         }
     }
 
@@ -1136,6 +1200,9 @@ public class AudioManager {
             return service.isSpeakerphoneOn();
         } catch (RemoteException e) {
             Log.e(TAG, "Dead object in isSpeakerphoneOn", e);
+            return false;
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Derp in isSpeakerphoneOn, because the service was not a thing. Expected, because media is broken. Fix this later.", e);
             return false;
         }
      }

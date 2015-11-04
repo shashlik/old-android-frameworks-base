@@ -21,7 +21,7 @@
 #include "jni.h"
 #include "android_runtime/AndroidRuntime.h"
 #include "selinux/selinux.h"
-#include "selinux/android.h"
+// #include "selinux/android.h"
 #include <errno.h>
 #include <ScopedLocalRef.h>
 #include <ScopedUtfChars.h>
@@ -415,7 +415,7 @@ static jboolean native_restorecon(JNIEnv *env, jobject, jstring pathnameStr) {
         return false;
     }
 
-    int ret = selinux_android_restorecon(pathname.c_str());
+    int ret = -1;//selinux_android_restorecon(pathname.c_str());
     ALOGV("restorecon(%s) => %d", pathname.c_str(), ret);
     return (ret == 0);
 }

@@ -123,7 +123,8 @@ class QuickSettings {
         mModel = new QuickSettingsModel(context);
         mBluetoothState = new QuickSettingsModel.BluetoothState();
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+//         mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        mWifiManager = null;
 
         mHandler = new Handler();
 
@@ -391,19 +392,19 @@ class QuickSettings {
             wifiTile.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    final boolean enable =
-                            (mWifiManager.getWifiState() != WifiManager.WIFI_STATE_ENABLED);
+                    final boolean enable = false;
+//                             (mWifiManager.getWifiState() != WifiManager.WIFI_STATE_ENABLED);
                     new AsyncTask<Void, Void, Void>() {
                         @Override
                         protected Void doInBackground(Void... args) {
-                            // Disable tethering if enabling Wifi
-                            final int wifiApState = mWifiManager.getWifiApState();
-                            if (enable && ((wifiApState == WifiManager.WIFI_AP_STATE_ENABLING) ||
-                                           (wifiApState == WifiManager.WIFI_AP_STATE_ENABLED))) {
-                                mWifiManager.setWifiApEnabled(null, false);
-                            }
-
-                            mWifiManager.setWifiEnabled(enable);
+//                             // Disable tethering if enabling Wifi
+//                             final int wifiApState = mWifiManager.getWifiApState();
+//                             if (enable && ((wifiApState == WifiManager.WIFI_AP_STATE_ENABLING) ||
+//                                            (wifiApState == WifiManager.WIFI_AP_STATE_ENABLED))) {
+//                                 mWifiManager.setWifiApEnabled(null, false);
+//                             }
+// 
+//                             mWifiManager.setWifiEnabled(enable);
                             return null;
                         }
                     }.execute();

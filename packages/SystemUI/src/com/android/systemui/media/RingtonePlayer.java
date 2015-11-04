@@ -61,6 +61,8 @@ public class RingtonePlayer extends SystemUI {
             mAudioService.setRingtonePlayer(mCallback);
         } catch (RemoteException e) {
             Log.e(TAG, "Problem registering RingtonePlayer: " + e);
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Problem registering RingtonePlayer, because media doesn't work yet, so this is going to break. Yup. Fix later.: " + e);
         }
     }
 

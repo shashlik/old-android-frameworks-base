@@ -532,17 +532,18 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode {
         // Other icons
         mLocationController = new LocationController(mContext); // will post a notification
         mBatteryController = new BatteryController(mContext);
-        mNetworkController = new NetworkController(mContext);
-        mBluetoothController = new BluetoothController(mContext);
+//         mNetworkController = new NetworkController(mContext);
+//         mBluetoothController = new BluetoothController(mContext);
         mRotationLockController = new RotationLockController(mContext);
         final SignalClusterView signalCluster =
                 (SignalClusterView)mStatusBarView.findViewById(R.id.signal_cluster);
 
 
-        mNetworkController.addSignalCluster(signalCluster);
-        signalCluster.setNetworkController(mNetworkController);
+//         mNetworkController.addSignalCluster(signalCluster);
+//         signalCluster.setNetworkController(mNetworkController);
 
-        final boolean isAPhone = mNetworkController.hasVoiceCallingFeature();
+//         final boolean isAPhone = mNetworkController.hasVoiceCallingFeature();
+        final boolean isAPhone = false;
         if (isAPhone) {
             mEmergencyCallLabel =
                     (TextView) mStatusBarWindow.findViewById(R.id.emergency_calls_only);
@@ -560,7 +561,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode {
         }
 
         mCarrierLabel = (TextView)mStatusBarWindow.findViewById(R.id.carrier_label);
-        mShowCarrierInPanel = (mCarrierLabel != null);
+//         mShowCarrierInPanel = (mCarrierLabel != null);
+        mShowCarrierInPanel = false;
         if (DEBUG) Log.v(TAG, "carrierlabel=" + mCarrierLabel + " show=" + mShowCarrierInPanel);
         if (mShowCarrierInPanel) {
             mCarrierLabel.setVisibility(mCarrierLabelVisible ? View.VISIBLE : View.INVISIBLE);
@@ -626,8 +628,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode {
                 }
                 mQS.setService(this);
                 mQS.setBar(mStatusBarView);
-                mQS.setup(mNetworkController, mBluetoothController, mBatteryController,
-                        mLocationController, mRotationLockController);
+//                 mQS.setup(mNetworkController, mBluetoothController, mBatteryController,
+//                         mLocationController, mRotationLockController);
             } else {
                 mQS = null; // fly away, be free
             }

@@ -323,14 +323,15 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
         mBrightnessObserver = new BrightnessObserver(mHandler);
         mBrightnessObserver.startObserving();
 
-        mMediaRouter = (MediaRouter)context.getSystemService(Context.MEDIA_ROUTER_SERVICE);
+//         mMediaRouter = (MediaRouter)context.getSystemService(Context.MEDIA_ROUTER_SERVICE);
+        mMediaRouter = null;
         rebindMediaRouterAsCurrentUser();
 
         mRemoteDisplayRouteCallback = new RemoteDisplayRouteCallback();
 
-        ConnectivityManager cm = (ConnectivityManager)
-                context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        mHasMobileData = cm.isNetworkSupported(ConnectivityManager.TYPE_MOBILE);
+//         ConnectivityManager cm = (ConnectivityManager)
+//                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        mHasMobileData = false;//cm.isNetworkSupported(ConnectivityManager.TYPE_MOBILE);
 
         IntentFilter alarmIntentFilter = new IntentFilter();
         alarmIntentFilter.addAction(Intent.ACTION_ALARM_CHANGED);
@@ -663,14 +664,14 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
         mRemoteDisplayTile.setOnPrepareListener(new QuickSettingsTileView.OnPrepareListener() {
             @Override
             public void onPrepare() {
-                mMediaRouter.addCallback(MediaRouter.ROUTE_TYPE_REMOTE_DISPLAY,
-                        mRemoteDisplayRouteCallback,
-                        MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
+//                 mMediaRouter.addCallback(MediaRouter.ROUTE_TYPE_REMOTE_DISPLAY,
+//                         mRemoteDisplayRouteCallback,
+//                         MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
                 updateRemoteDisplays();
             }
             @Override
             public void onUnprepare() {
-                mMediaRouter.removeCallback(mRemoteDisplayRouteCallback);
+//                 mMediaRouter.removeCallback(mRemoteDisplayRouteCallback);
             }
         });
 
@@ -678,12 +679,13 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
     }
 
     private void rebindMediaRouterAsCurrentUser() {
-        mMediaRouter.rebindAsUser(mUserTracker.getCurrentUserId());
+//         mMediaRouter.rebindAsUser(mUserTracker.getCurrentUserId());
     }
 
     private void updateRemoteDisplays() {
-        MediaRouter.RouteInfo connectedRoute = mMediaRouter.getSelectedRoute(
-                MediaRouter.ROUTE_TYPE_REMOTE_DISPLAY);
+        MediaRouter.RouteInfo connectedRoute = null;
+//         MediaRouter.RouteInfo connectedRoute = mMediaRouter.getSelectedRoute(
+//                 MediaRouter.ROUTE_TYPE_REMOTE_DISPLAY);
         boolean enabled = connectedRoute != null
                 && connectedRoute.matchesTypes(MediaRouter.ROUTE_TYPE_REMOTE_DISPLAY);
         boolean connecting;
@@ -692,8 +694,9 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
         } else {
             connectedRoute = null;
             connecting = false;
-            enabled = mMediaRouter.isRouteAvailable(MediaRouter.ROUTE_TYPE_REMOTE_DISPLAY,
-                    MediaRouter.AVAILABILITY_FLAG_IGNORE_DEFAULT_ROUTE);
+            enabled = false;
+//             enabled = mMediaRouter.isRouteAvailable(MediaRouter.ROUTE_TYPE_REMOTE_DISPLAY,
+//                     MediaRouter.AVAILABILITY_FLAG_IGNORE_DEFAULT_ROUTE);
         }
 
         mRemoteDisplayState.enabled = enabled;

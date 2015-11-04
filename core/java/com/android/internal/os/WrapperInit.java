@@ -100,7 +100,8 @@ public class WrapperInit {
     public static void execApplication(String invokeWith, String niceName,
             int targetSdkVersion, FileDescriptor pipeFd, String[] args) {
         StringBuilder command = new StringBuilder(invokeWith);
-        command.append(" /system/bin/app_process /system/bin --application");
+//         command.append(" /system/bin/app_process /system/bin --application");
+        command.append(" /usr/android/system/bin/shashlik_launcher /usr/android/system/bin --application");
         if (niceName != null) {
             command.append(" '--nice-name=").append(niceName).append("'");
         }

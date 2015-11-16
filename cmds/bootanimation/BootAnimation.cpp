@@ -46,17 +46,20 @@
 #include <core/SkStream.h>
 #include <core/SkImageDecoder.h>
 
-#include <GLES/gl.h>
-#include <GLES/glext.h>
-#include <EGL/eglext.h>
+// #include <GLES/gl.h>
+// #include <GLES/glext.h>
+// #include <EGL/eglext.h>
+#include <epoxy/gl.h>
+#include <epoxy/egl.h>
 
 #include <WaylandClient.h>
+#include <WaylandWindow.h>
 #include <QCoreApplication>
 
 #include "BootAnimation.h"
 
-extern GL_API void (*epoxy_glDrawTexiOES)(GLint x, GLint y, GLint z, GLint width, GLint height);
-#define glDrawTexiOES epoxy_glDrawTexiOES
+// extern GL_API void (*epoxy_glDrawTexiOES)(GLint x, GLint y, GLint z, GLint width, GLint height);
+// #define glDrawTexiOES epoxy_glDrawTexiOES
 
 #define USER_BOOTANIMATION_FILE SHASHLIK_ROOT "/data/local/bootanimation.zip"
 #define SYSTEM_BOOTANIMATION_FILE SHASHLIK_ROOT "/system/media/bootanimation.zip"
@@ -74,10 +77,12 @@ namespace android {
 BootAnimation::BootAnimation() : Thread(false), m_waylandClient(0)
 {
     mSession = new SurfaceComposerClient();
-    m_waylandClient = new WaylandClient();
-    while(m_waylandClient->hasShellSurface() == false) {
-        qApp->processEvents(QEventLoop::WaitForMoreEvents);
-    }
+    m_waylandClient = WaylandClient::getInstance();
+    m_waylandClient->connect();
+//     m_waylandClient = new WaylandClient();
+//     while(m_waylandClient->hasShellSurface() == false) {
+//         qApp->processEvents(QEventLoop::WaitForMoreEvents);
+//     }
 }
 
 BootAnimation::~BootAnimation() {
@@ -260,17 +265,20 @@ status_t BootAnimation::readyToRun() {
     EGLSurface surface;
     EGLContext context;
 
-    EGLDisplay display = eglGetDisplay(m_waylandClient->display());
+    EGLDisplay display = eglGetDisplay(m_waylandClient->getDisplay());
 
     if (eglInitialize(display, 0, 0) == EGL_FALSE) {
         ALOGE("Initialisation of the EGL display failed, and the error is %s", m_waylandClient->EGLErrorString(eglGetError()));
         return NO_INIT;
     }
     eglChooseConfig(display, attribs, &config, 1, &numConfigs);
+
+    WaylandWindow *window = new WaylandWindow(480, 640);
+    surface = eglCreateWindowSurface(display, config, window->getNative(), NULL);
 //     surface = eglCreateWindowSurface(display, config, s.get(), NULL);
-    surface = m_waylandClient->getSurface(display, config, 480, 640);
+//     surface = m_waylandClient->getSurface(display, config, 480, 640);
     context = eglCreateContext(display, config, NULL, NULL);
-    qApp->processEvents();qApp->processEvents();qApp->processEvents();qApp->processEvents();qApp->processEvents();qApp->processEvents();qApp->processEvents();
+//     qApp->processEvents();qApp->processEvents();qApp->processEvents();qApp->processEvents();qApp->processEvents();qApp->processEvents();qApp->processEvents();
     eglQuerySurface(display, surface, EGL_WIDTH, &w);
     eglQuerySurface(display, surface, EGL_HEIGHT, &h);
 //     w = 480;

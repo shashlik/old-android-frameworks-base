@@ -30,7 +30,6 @@
 
 #define QT_NO_KEYWORDS
 #include <WaylandClient.h>
-static WaylandClient* waylandClient;
 
 namespace android {
 
@@ -39,6 +38,8 @@ class AndroidRuntime
 public:
     AndroidRuntime();
     virtual ~AndroidRuntime();
+
+    static WaylandClient* getWaylandClient();
 
     enum StartMode {
         Zygote,

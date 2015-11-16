@@ -69,6 +69,8 @@ import android.view.animation.Interpolator;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.view.Surface.OutOfResourcesException;
+import android.view.WaylandClient;
+import android.view.WaylandWindow;
 import android.widget.Scroller;
 
 import com.android.internal.R;
@@ -99,7 +101,7 @@ public final class ViewRootImpl implements ViewParent,
     private static final boolean DBG = false;
     private static final boolean LOCAL_LOGV = false;
     /** @noinspection PointlessBooleanExpression*/
-    private static final boolean DEBUG_DRAW = false || LOCAL_LOGV;
+    private static final boolean DEBUG_DRAW = true;// false || LOCAL_LOGV;
     private static final boolean DEBUG_LAYOUT = false || LOCAL_LOGV;
     private static final boolean DEBUG_DIALOG = false || LOCAL_LOGV;
     private static final boolean DEBUG_INPUT_RESIZE = false || LOCAL_LOGV;
@@ -133,6 +135,7 @@ public final class ViewRootImpl implements ViewParent,
 
     final Context mContext;
     final IWindowSession mWindowSession;
+    final WaylandWindow mWaylandWindow;
     final Display mDisplay;
     final String mBasePackageName;
 
@@ -338,6 +341,10 @@ public final class ViewRootImpl implements ViewParent,
         mWindowSession = WindowManagerGlobal.getWindowSession();
         mDisplay = display;
         mBasePackageName = context.getBasePackageName();
+
+        Point point = new Point();
+        display.getSize(point);
+        mWaylandWindow = WaylandClient.createWindow(point.x, point.y);
 
         mDisplayAdjustments = display.getDisplayAdjustments();
 
@@ -1544,7 +1551,8 @@ public final class ViewRootImpl implements ViewParent,
                         if (mAttachInfo.mHardwareRenderer != null) {
                             try {
                                 hwInitialized = mAttachInfo.mHardwareRenderer.initialize(
-                                        mHolder.getSurface());
+                                        mWaylandWindow);
+//                                         mHolder.getSurface());
                             } catch (OutOfResourcesException e) {
                                 handleOutOfResourcesException(e);
                                 return;
@@ -1571,7 +1579,8 @@ public final class ViewRootImpl implements ViewParent,
                         mSurfaceHolder == null && mAttachInfo.mHardwareRenderer != null) {
                     mFullRedrawNeeded = true;
                     try {
-                        mAttachInfo.mHardwareRenderer.updateSurface(mHolder.getSurface());
+                        mAttachInfo.mHardwareRenderer.updateSurface(mWaylandWindow);
+//                         mAttachInfo.mHardwareRenderer.updateSurface(mHolder.getSurface());
                     } catch (OutOfResourcesException e) {
                         handleOutOfResourcesException(e);
                         return;
@@ -1654,7 +1663,8 @@ public final class ViewRootImpl implements ViewParent,
                         mHeight != mAttachInfo.mHardwareRenderer.getHeight()) {
                     mAttachInfo.mHardwareRenderer.setup(mWidth, mHeight);
                     if (!hwInitialized) {
-                        mAttachInfo.mHardwareRenderer.invalidate(mHolder.getSurface());
+                        mAttachInfo.mHardwareRenderer.invalidate(mWaylandWindow);
+//                         mAttachInfo.mHardwareRenderer.invalidate(mHolder.getSurface());
                         mFullRedrawNeeded = true;
                     }
                 }
@@ -2279,9 +2289,9 @@ public final class ViewRootImpl implements ViewParent,
 
     private void draw(boolean fullRedrawNeeded) {
         Surface surface = mSurface;
-        if (!surface.isValid()) {
-            return;
-        }
+//         if (!surface.isValid()) {
+//             return;
+//         }
 
         if (DEBUG_FPS) {
             trackFPS();
@@ -2391,7 +2401,8 @@ public final class ViewRootImpl implements ViewParent,
 
                     try {
                         attachInfo.mHardwareRenderer.initializeIfNeeded(mWidth, mHeight,
-                                mHolder.getSurface());
+                                mWaylandWindow);
+//                                 mHolder.getSurface());
                     } catch (OutOfResourcesException e) {
                         handleOutOfResourcesException(e);
                         return;
@@ -3103,7 +3114,8 @@ public final class ViewRootImpl implements ViewParent,
                             mFullRedrawNeeded = true;
                             try {
                                 mAttachInfo.mHardwareRenderer.initializeIfNeeded(
-                                        mWidth, mHeight, mHolder.getSurface());
+                                        mWidth, mHeight, mWaylandWindow);
+//                                         mWidth, mHeight, mHolder.getSurface());
                             } catch (OutOfResourcesException e) {
                                 Log.e(TAG, "OutOfResourcesException locking surface", e);
                                 try {
@@ -5318,7 +5330,8 @@ public final class ViewRootImpl implements ViewParent,
 
                 // Hardware rendering
                 if (mAttachInfo.mHardwareRenderer != null) {
-                    if (mAttachInfo.mHardwareRenderer.loadSystemProperties(mHolder.getSurface())) {
+//                     if (mAttachInfo.mHardwareRenderer.loadSystemProperties(mHolder.getSurface())) {
+                    if (mAttachInfo.mHardwareRenderer.loadSystemProperties(mWaylandWindow)) {
                         invalidate();
                     }
                 }

@@ -35,6 +35,8 @@ import android.os.Trace;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Surface.OutOfResourcesException;
+import android.view.WaylandWindow;
+import android.view.WaylandClient;
 
 import com.google.android.gles_jni.EGLImpl;
 
@@ -255,6 +257,7 @@ public abstract class HardwareRenderer {
      *         false otherwise
      */
     public static boolean isAvailable() {
+        Log.e(LOG_TAG, "Is the GLES20Canvas available? " + GLES20Canvas.isAvailable());
         return GLES20Canvas.isAvailable();
     }
 
@@ -272,14 +275,16 @@ public abstract class HardwareRenderer {
      *
      * @return True if the initialization was successful, false otherwise.
      */
-    abstract boolean initialize(Surface surface) throws OutOfResourcesException;
+    abstract boolean initialize(WaylandWindow surface) throws OutOfResourcesException;
+//     abstract boolean initialize(Surface surface) throws OutOfResourcesException;
 
     /**
      * Updates the hardware renderer for the specified surface.
      *
      * @param surface The surface to hardware accelerate
      */
-    abstract void updateSurface(Surface surface) throws OutOfResourcesException;
+    abstract void updateSurface(WaylandWindow surface) throws OutOfResourcesException;
+//     abstract void updateSurface(Surface surface) throws OutOfResourcesException;
 
     /**
      * Destroys the layers used by the specified view hierarchy.
@@ -302,7 +307,8 @@ public abstract class HardwareRenderer {
      *
      * @param surface The surface to hardware accelerate
      */
-    abstract void invalidate(Surface surface);
+    abstract void invalidate(WaylandWindow surface);
+//     abstract void invalidate(Surface surface);
 
     /**
      * This method should be invoked to ensure the hardware renderer is in
@@ -379,7 +385,8 @@ public abstract class HardwareRenderer {
      *
      * @return True if a property has changed.
      */
-    abstract boolean loadSystemProperties(Surface surface);
+    abstract boolean loadSystemProperties(WaylandWindow surface);
+//     abstract boolean loadSystemProperties(Surface surface);
 
     private static native boolean nLoadProperties();
 
@@ -597,7 +604,8 @@ public abstract class HardwareRenderer {
      * @return true if the surface was initialized, false otherwise. Returning
      *         false might mean that the surface was already initialized.
      */
-    boolean initializeIfNeeded(int width, int height, Surface surface)
+    boolean initializeIfNeeded(int width, int height, WaylandWindow surface)
+//     boolean initializeIfNeeded(int width, int height, Surface surface)
             throws OutOfResourcesException {
         if (isRequested()) {
             // We lost the gl context, so recreate it.
@@ -895,7 +903,8 @@ public abstract class HardwareRenderer {
         }
 
         @Override
-        boolean loadSystemProperties(Surface surface) {
+        boolean loadSystemProperties(WaylandWindow surface) {
+//         boolean loadSystemProperties(Surface surface) {
             boolean value;
             boolean changed = false;
 
@@ -1052,18 +1061,24 @@ public abstract class HardwareRenderer {
         }
 
         @Override
-        boolean initialize(Surface surface) throws OutOfResourcesException {
+        boolean initialize(WaylandWindow surface) throws OutOfResourcesException {
+//         boolean initialize(Surface surface) throws OutOfResourcesException {
+            Log.e(LOG_TAG, "Initialising WaylandWindow instance " + surface);
             if (isRequested() && !isEnabled()) {
+                Log.e(LOG_TAG, "We're requested and not enabled");
                 boolean contextCreated = initializeEgl();
                 mGl = createEglSurface(surface);
                 mDestroyed = false;
 
                 if (mGl != null) {
+                    Log.e(LOG_TAG, "mGl is not null");
                     int err = sEgl.eglGetError();
                     if (err != EGL_SUCCESS) {
+                        Log.e(LOG_TAG, "EGL error was, however, something bad... " + err);
                         destroy(true);
                         setRequested(false);
                     } else {
+                        Log.e(LOG_TAG, "Let's do the thing!");
                         if (mCanvas == null) {
                             mCanvas = createCanvas();
                             mCanvas.setName(mName);
@@ -1082,7 +1097,8 @@ public abstract class HardwareRenderer {
         }
 
         @Override
-        void updateSurface(Surface surface) throws OutOfResourcesException {
+        void updateSurface(WaylandWindow surface) throws OutOfResourcesException {
+//         void updateSurface(Surface surface) throws OutOfResourcesException {
             if (isRequested() && isEnabled()) {
                 createEglSurface(surface);
             }
@@ -1098,7 +1114,8 @@ public abstract class HardwareRenderer {
                     sEgl = (EGL10) EGLContext.getEGL();
 
                     // Get to the default display.
-                    sEglDisplay = sEgl.eglGetDisplay(EGL_DEFAULT_DISPLAY);
+//                     sEglDisplay = sEgl.eglGetDisplay(EGL_DEFAULT_DISPLAY);
+                    sEglDisplay = sEgl.eglGetDisplay(WaylandClient.eglDisplay());
 
                     if (sEglDisplay == EGL_NO_DISPLAY) {
                         throw new RuntimeException("eglGetDisplay failed "
@@ -1218,7 +1235,8 @@ public abstract class HardwareRenderer {
             Log.d(LOG_TAG, "  CONFIG_CAVEAT = 0x" + Integer.toHexString(value[0]));
         }
 
-        GL createEglSurface(Surface surface) throws OutOfResourcesException {
+        GL createEglSurface(WaylandWindow surface) throws OutOfResourcesException {
+//         GL createEglSurface(Surface surface) throws OutOfResourcesException {
             // Check preconditions.
             if (sEgl == null) {
                 throw new RuntimeException("egl not initialized");
@@ -1313,7 +1331,8 @@ public abstract class HardwareRenderer {
         }
 
         @Override
-        void invalidate(Surface surface) {
+        void invalidate(WaylandWindow surface) {
+//         void invalidate(Surface surface) {
             // Cancels any existing buffer to ensure we'll get a buffer
             // of the right size before we call eglSwapBuffers
             sEgl.eglMakeCurrent(sEglDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
@@ -1337,7 +1356,8 @@ public abstract class HardwareRenderer {
             }
         }
 
-        private boolean createSurface(Surface surface) {
+        private boolean createSurface(WaylandWindow surface) {
+//         private boolean createSurface(Surface surface) {
             mEglSurface = sEgl.eglCreateWindowSurface(sEglDisplay, sEglConfig, surface, null);
 
             if (mEglSurface == null || mEglSurface == EGL_NO_SURFACE) {
@@ -1660,6 +1680,7 @@ public abstract class HardwareRenderer {
         }
 
         private void swapBuffers(int status) {
+            Log.e(LOG_TAG, "Swapping buffers in the hardware renderer");
             if ((status & DisplayList.STATUS_DREW) == DisplayList.STATUS_DREW) {
                 long eglSwapBuffersStartTime = 0;
                 if (mProfileEnabled) {
@@ -2000,6 +2021,7 @@ public abstract class HardwareRenderer {
 
         @Override
         boolean canDraw() {
+            Log.e(LOG_TAG, "Can draw? " + super.canDraw() + " mGlCanvas is " + mGlCanvas);
             return super.canDraw() && mGlCanvas != null;
         }
 

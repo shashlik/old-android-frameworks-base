@@ -24,7 +24,8 @@
 #include <assert.h>
 #include <dlfcn.h>
 
-#include <GLES/gl.h>
+#include <epoxy/gl.h>
+// #include <GLES/gl.h>
 // #include <ETC1/etc1.h>
 
 #include <core/SkBitmap.h>

@@ -19,7 +19,7 @@
 #include "jni.h"
 #include "JNIHelp.h"
 #include <android_runtime/AndroidRuntime.h>
-#include <android_runtime/android_view_Surface.h>
+#include <android_runtime/android_view_Wayland.h>
 #include <android_runtime/android_graphics_SurfaceTexture.h>
 #include <utils/misc.h>
 
@@ -130,28 +130,28 @@ toEGLHandle(JNIEnv *_env, jclass cls, jmethodID con, void * handle) {
     return _env->NewObject(cls, con, (jint)handle);
 }
 
-// --------------------------------------------------------------------------
-/* EGLBoolean eglPresentationTimeANDROID ( EGLDisplay dpy, EGLSurface sur, EGLnsecsANDROID time ) */
-static jboolean
-android_eglPresentationTimeANDROID
-  (JNIEnv *_env, jobject _this, jobject dpy, jobject sur, jlong time) {
-    EGLBoolean _returnValue = (EGLBoolean) 0;
-    EGLDisplay dpy_native = (EGLDisplay) fromEGLHandle(_env, egldisplayGetHandleID, dpy);
-    EGLSurface sur_native = (EGLSurface) fromEGLHandle(_env, eglsurfaceGetHandleID, sur);
-
-    _returnValue = eglPresentationTimeANDROID(
-        (EGLDisplay)dpy_native,
-        (EGLSurface)sur_native,
-        (EGLnsecsANDROID)time
-    );
-    return (jboolean)_returnValue;
-}
+// // --------------------------------------------------------------------------
+// /* EGLBoolean eglPresentationTimeANDROID ( EGLDisplay dpy, EGLSurface sur, EGLnsecsANDROID time ) */
+// static jboolean
+// android_eglPresentationTimeANDROID
+//   (JNIEnv *_env, jobject _this, jobject dpy, jobject sur, jlong time) {
+//     EGLBoolean _returnValue = (EGLBoolean) 0;
+//     EGLDisplay dpy_native = (EGLDisplay) fromEGLHandle(_env, egldisplayGetHandleID, dpy);
+//     EGLSurface sur_native = (EGLSurface) fromEGLHandle(_env, eglsurfaceGetHandleID, sur);
+// 
+//     _returnValue = eglPresentationTimeANDROID(
+//         (EGLDisplay)dpy_native,
+//         (EGLSurface)sur_native,
+//         (EGLnsecsANDROID)time
+//     );
+//     return (jboolean)_returnValue;
+// }
 
 static const char *classPathName = "android/opengl/EGLExt";
 
 static JNINativeMethod methods[] = {
 {"_nativeClassInit", "()V", (void*)nativeClassInit },
-{"eglPresentationTimeANDROID", "(Landroid/opengl/EGLDisplay;Landroid/opengl/EGLSurface;J)Z", (void *) android_eglPresentationTimeANDROID },
+// {"eglPresentationTimeANDROID", "(Landroid/opengl/EGLDisplay;Landroid/opengl/EGLSurface;J)Z", (void *) android_eglPresentationTimeANDROID },
 };
 
 int register_android_opengl_jni_EGLExt(JNIEnv *_env)

@@ -18,6 +18,8 @@
 #define LOG_TAG "9patch"
 #define LOG_NDEBUG 1
 
+#include <epoxy/egl.h>
+
 #include <androidfw/ResourceTypes.h>
 #include <utils/Log.h>
 

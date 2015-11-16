@@ -112,16 +112,19 @@ static void android_view_HardwareRenderer_beginFrame(JNIEnv* env, jobject clazz,
         EGLint value;
         jint* storage = env->GetIntArrayElements(size, NULL);
 
-        eglQuerySurface(display, surface, EGL_WIDTH, &value);
-        storage[0] = value;
-
-        eglQuerySurface(display, surface, EGL_HEIGHT, &value);
-        storage[1] = value;
+//         eglQuerySurface(display, surface, EGL_WIDTH, &value);
+//         storage[0] = value;
+// 
+//         eglQuerySurface(display, surface, EGL_HEIGHT, &value);
+//         storage[1] = value;
+        // SHASHLIK alright, this isn't so good... but querying the surface returns silly numbers
+        storage[0] = 480;
+        storage[1] = 640;
 
         env->ReleaseIntArrayElements(size, storage, 0);
     }
 
-    eglBeginFrame(display, surface);
+//     eglBeginFrame(display, surface);
 }
 
 static jlong android_view_HardwareRenderer_getSystemTime(JNIEnv* env, jobject clazz) {
@@ -141,7 +144,7 @@ static void android_view_HardwareRenderer_setupShadersDiskCache(JNIEnv* env, job
         jstring diskCachePath) {
 
     const char* cacheArray = env->GetStringUTFChars(diskCachePath, NULL);
-    egl_cache_t::get()->setCacheFilename(cacheArray);
+//     egl_cache_t::get()->setCacheFilename(cacheArray);
     env->ReleaseStringUTFChars(diskCachePath, cacheArray);
 }
 

@@ -1,3 +1,5 @@
+#include <epoxy/egl.h>
+
 #include <jni.h>
 #include "GraphicsJNI.h"
 

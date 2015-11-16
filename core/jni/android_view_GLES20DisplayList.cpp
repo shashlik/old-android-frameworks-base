@@ -16,7 +16,8 @@
 
 #define LOG_TAG "OpenGLRenderer"
 
-#include <EGL/egl.h>
+// #include <EGL/egl.h>
+#include <epoxy/egl.h>
 
 #include "jni.h"
 #include "GraphicsJNI.h"

@@ -18,8 +18,10 @@
 
 #include <stdio.h>
 
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
+// #include <GLES2/gl2.h>
+// #include <GLES2/gl2ext.h>
+#include <epoxy/gl.h>
+#include <epoxy/egl.h>
 
 #include <gui/GLConsumer.h>
 #include <gui/Surface.h>

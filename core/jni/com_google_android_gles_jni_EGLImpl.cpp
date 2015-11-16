@@ -17,22 +17,27 @@
 
 #include "JNIHelp.h"
 #include <android_runtime/AndroidRuntime.h>
-#include <android_runtime/android_view_Surface.h>
+#include <android_runtime/android_view_Wayland.h>
 #include <android_runtime/android_graphics_SurfaceTexture.h>
 #include <utils/misc.h>
 
 // #include <EGL/egl_display.h>
-#include <EGL/egl.h>
-#include <GLES/gl.h>
+// #include <EGL/egl.h>
+#include <epoxy/egl.h>
+// #include <GLES/gl.h>
+#include <epoxy/gl.h>
 
-#include <gui/Surface.h>
-#include <gui/GLConsumer.h>
-#include <gui/Surface.h>
+// #include <gui/Surface.h>
+// #include <gui/GLConsumer.h>
+
+#include <ui/PixelFormat.h>
 
 #include <SkBitmap.h>
 #include <SkPixelRef.h>
 
-#include <ui/ANativeObjectBase.h>
+// #include <ui/ANativeObjectBase.h>
+
+#include "WaylandWindow.h"
 
 namespace android {
 
@@ -121,8 +126,8 @@ static jboolean jni_eglInitialize(JNIEnv *_env, jobject _this, jobject display,
         return JNI_FALSE;
     }
 
-    EGLDisplay dpy = getDisplay(_env, display);
-    jboolean success = eglInitialize(dpy, NULL, NULL);
+//     EGLDisplay dpy = getDisplay(_env, display);
+    jboolean success = eglInitialize(AndroidRuntime::getWaylandClient()->getDisplay(), NULL, NULL);
     if (success && major_minor) {
         int len = _env->GetArrayLength(major_minor);
         if (len) {
@@ -319,14 +324,20 @@ static jint jni_eglCreateWindowSurface(JNIEnv *_env, jobject _this, jobject disp
     }
     EGLDisplay dpy = getDisplay(_env, display);
     EGLContext cnf = getConfig(_env, config);
-    return (jint)waylandClient->getSurface(dpy, cnf, 480, 640);
+//     return (jint)AndroidRuntime::getWaylandClient()->getSurface(dpy, cnf, 480, 640);
 //     sp<ANativeWindow> window;
-//     if (native_window == NULL) {
-// not_valid_surface:
-//         jniThrowException(_env, "java/lang/IllegalArgumentException",
-//                 "Make sure the SurfaceView or associated SurfaceHolder has a valid Surface");
-//         return 0;
-//     }
+    WaylandWindow *window = android_view_Wayland_getWindow(_env, native_window);
+    if (window == NULL)
+        goto not_valid_surface;
+    jint* base = beginNativeAttribList(_env, attrib_list);
+    EGLSurface sur = eglCreateWindowSurface(dpy, cnf, window->getNative(), base);
+    endNativeAttributeList(_env, attrib_list, base);
+    if (native_window == NULL) {
+not_valid_surface:
+        jniThrowException(_env, "java/lang/IllegalArgumentException",
+                "Make sure the SurfaceView or associated SurfaceHolder has a valid Surface");
+        return 0;
+    }
 // 
 //     window = android_view_Surface_getNativeWindow(_env, native_window);
 //     if (window == NULL)
@@ -335,7 +346,7 @@ static jint jni_eglCreateWindowSurface(JNIEnv *_env, jobject _this, jobject disp
 //     jint* base = beginNativeAttribList(_env, attrib_list);
 //     EGLSurface sur = eglCreateWindowSurface(dpy, cnf, window.get(), base);
 //     endNativeAttributeList(_env, attrib_list, base);
-//     return (jint)sur;
+    return (jint)sur;
 }
 
 static jint jni_eglCreateWindowSurfaceTexture(JNIEnv *_env, jobject _this, jobject display,
@@ -347,14 +358,23 @@ static jint jni_eglCreateWindowSurfaceTexture(JNIEnv *_env, jobject _this, jobje
     }
     EGLDisplay dpy = getDisplay(_env, display);
     EGLContext cnf = getConfig(_env, config);
-    return (jint)waylandClient->getSurface(dpy, cnf, 480, 640);
+//     return (jint)AndroidRuntime::getWaylandClient()->getSurface(dpy, cnf, 480, 640);
+
+    WaylandWindow *window = android_view_Wayland_getWindow(_env, native_window);
+    if (window == NULL)
+        goto not_valid_surface;
+
+    jint* base = beginNativeAttribList(_env, attrib_list);
+    EGLSurface sur = eglCreateWindowSurface(dpy, cnf, window->getNative(), base);
+    endNativeAttributeList(_env, attrib_list, base);
+
 //     sp<ANativeWindow> window;
-//     if (native_window == 0) {
-// not_valid_surface:
-//         jniThrowException(_env, "java/lang/IllegalArgumentException",
-//                 "Make sure the SurfaceTexture is valid");
-//         return 0;
-//     }
+    if (native_window == 0) {
+not_valid_surface:
+        jniThrowException(_env, "java/lang/IllegalArgumentException",
+                "Make sure the SurfaceTexture is valid");
+        return 0;
+    }
 // 
 //     sp<IGraphicBufferProducer> producer(SurfaceTexture_getProducer(_env, native_window));
 //     window = new Surface(producer, true);
@@ -364,7 +384,7 @@ static jint jni_eglCreateWindowSurfaceTexture(JNIEnv *_env, jobject _this, jobje
 //     jint* base = beginNativeAttribList(_env, attrib_list);
 //     EGLSurface sur = eglCreateWindowSurface(dpy, cnf, window.get(), base);
 //     endNativeAttributeList(_env, attrib_list, base);
-//     return (jint)sur;
+    return (jint)sur;
 }
 
 static jboolean jni_eglGetConfigAttrib(JNIEnv *_env, jobject _this, jobject display,
@@ -464,7 +484,7 @@ static jboolean jni_eglDestroySurface(JNIEnv *_env, jobject _this, jobject displ
 
 static jint jni_eglGetDisplay(JNIEnv *_env, jobject _this, jobject native_display) {
 //     return (jint)eglGetDisplay(EGL_DEFAULT_DISPLAY);
-    return (jint)eglGetDisplay(waylandClient->display());
+    return (jint)eglGetDisplay(AndroidRuntime::getWaylandClient()->getDisplay());
 }
 
 static jboolean jni_eglMakeCurrent(JNIEnv *_env, jobject _this, jobject display, jobject draw, jobject read, jobject context) {

@@ -17,8 +17,9 @@
 
 // This source file is automatically generated
 
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
+// #include <GLES2/gl2.h>
+// #include <GLES2/gl2ext.h>
+#include <epoxy/gl.h>
 
 #include "jni.h"
 #include "JNIHelp.h"
@@ -41,22 +42,22 @@ static jfieldID elementSizeShiftID;
 /* special calls implemented in Android's GLES wrapper used to more
  * efficiently bound-check passed arrays */
 extern "C" {
-#ifdef GL_VERSION_ES_CM_1_1
-GL_API void GL_APIENTRY glColorPointerBounds(GLint size, GLenum type, GLsizei stride,
-        const GLvoid *ptr, GLsizei count);
-GL_API void GL_APIENTRY glNormalPointerBounds(GLenum type, GLsizei stride,
-        const GLvoid *pointer, GLsizei count);
-GL_API void GL_APIENTRY glTexCoordPointerBounds(GLint size, GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count);
-GL_API void GL_APIENTRY glVertexPointerBounds(GLint size, GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count);
-GL_API void GL_APIENTRY glPointSizePointerOESBounds(GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count);
-GL_API void GL_APIENTRY glMatrixIndexPointerOESBounds(GLint size, GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count);
-GL_API void GL_APIENTRY glWeightPointerOESBounds(GLint size, GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count);
-#endif
+// #ifdef GL_VERSION_ES_CM_1_1
+// GL_API void GL_APIENTRY glColorPointerBounds(GLint size, GLenum type, GLsizei stride,
+//         const GLvoid *ptr, GLsizei count);
+// GL_API void GL_APIENTRY glNormalPointerBounds(GLenum type, GLsizei stride,
+//         const GLvoid *pointer, GLsizei count);
+// GL_API void GL_APIENTRY glTexCoordPointerBounds(GLint size, GLenum type,
+//         GLsizei stride, const GLvoid *pointer, GLsizei count);
+// GL_API void GL_APIENTRY glVertexPointerBounds(GLint size, GLenum type,
+//         GLsizei stride, const GLvoid *pointer, GLsizei count);
+// GL_API void GL_APIENTRY glPointSizePointerOESBounds(GLenum type,
+//         GLsizei stride, const GLvoid *pointer, GLsizei count);
+// GL_API void GL_APIENTRY glMatrixIndexPointerOESBounds(GLint size, GLenum type,
+//         GLsizei stride, const GLvoid *pointer, GLsizei count);
+// GL_API void GL_APIENTRY glWeightPointerOESBounds(GLint size, GLenum type,
+//         GLsizei stride, const GLvoid *pointer, GLsizei count);
+// #endif
 #ifdef GL_ES_VERSION_2_0
 static void glVertexAttribPointerBounds(GLuint indx, GLint size, GLenum type,
         GLboolean normalized, GLsizei stride, const GLvoid *pointer, GLsizei count) {
@@ -2480,14 +2481,16 @@ exit:
 static void
 android_glGetBooleanv__I_3ZI
   (JNIEnv *_env, jobject _this, jint pname, jbooleanArray params_ref, jint offset) {
-    get<jbooleanArray, GLboolean, glGetBooleanv>(_env, _this, pname, params_ref, offset);
+      // SHASHLIK this is likely to break a bunch of stuff...
+//     get<jbooleanArray, GLboolean, glGetBooleanv>(_env, _this, pname, params_ref, offset);
 }
 
 /* void glGetBooleanv ( GLenum pname, GLboolean *params ) */
 static void
 android_glGetBooleanv__ILjava_nio_IntBuffer_2
   (JNIEnv *_env, jobject _this, jint pname, jobject params_buf) {
-    getarray<GLboolean, glGetBooleanv>(_env, _this, pname, params_buf);
+      // SHASHLIK this is likely to break a bunch of stuff...
+//     getarray<GLboolean, glGetBooleanv>(_env, _this, pname, params_buf);
 }
 /* void glGetBufferParameteriv ( GLenum target, GLenum pname, GLint *params ) */
 static void
@@ -2590,14 +2593,16 @@ android_glGetError__
 static void
 android_glGetFloatv__I_3FI
   (JNIEnv *_env, jobject _this, jint pname, jfloatArray params_ref, jint offset) {
-    get<jfloatArray, GLfloat, glGetFloatv>(_env, _this, pname, params_ref, offset);
+      // SHASHLIK this is likely to break a bunch of stuff...
+//     get<jfloatArray, GLfloat, glGetFloatv>(_env, _this, pname, params_ref, offset);
 }
 
 /* void glGetFloatv ( GLenum pname, GLfloat *params ) */
 static void
 android_glGetFloatv__ILjava_nio_FloatBuffer_2
   (JNIEnv *_env, jobject _this, jint pname, jobject params_buf) {
-    getarray<GLfloat, glGetFloatv>(_env, _this, pname, params_buf);
+      // SHASHLIK this is likely to break a bunch of stuff...
+//     getarray<GLfloat, glGetFloatv>(_env, _this, pname, params_buf);
 }
 /* void glGetFramebufferAttachmentParameteriv ( GLenum target, GLenum attachment, GLenum pname, GLint *params ) */
 static void
@@ -2673,14 +2678,16 @@ android_glGetFramebufferAttachmentParameteriv__IIILjava_nio_IntBuffer_2
 static void
 android_glGetIntegerv__I_3II
   (JNIEnv *_env, jobject _this, jint pname, jintArray params_ref, jint offset) {
-    get<jintArray, GLint, glGetIntegerv>(_env, _this, pname, params_ref, offset);
+      // SHASHLIK this is likely to break a bunch of stuff...
+//     get<jintArray, GLint, glGetIntegerv>(_env, _this, pname, params_ref, offset);
 }
 
 /* void glGetIntegerv ( GLenum pname, GLint *params ) */
 static void
 android_glGetIntegerv__ILjava_nio_IntBuffer_2
   (JNIEnv *_env, jobject _this, jint pname, jobject params_buf) {
-    getarray<GLint, glGetIntegerv>(_env, _this, pname, params_buf);
+      // SHASHLIK this is likely to break a bunch of stuff...
+//     getarray<GLint, glGetIntegerv>(_env, _this, pname, params_buf);
 }
 
 /* void glGetProgramiv ( GLuint program, GLenum pname, GLint *params ) */

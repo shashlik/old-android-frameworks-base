@@ -19,7 +19,7 @@
 #include "jni.h"
 #include "JNIHelp.h"
 #include <android_runtime/AndroidRuntime.h>
-#include <android_runtime/android_view_Surface.h>
+#include <android_runtime/android_view_Wayland.h>
 #include <android_runtime/android_graphics_SurfaceTexture.h>
 #include <utils/misc.h>
 
@@ -30,7 +30,8 @@
 #include <gui/GLConsumer.h>
 #include <gui/Surface.h>
 
-#include <ui/ANativeObjectBase.h>
+// #include <ui/ANativeObjectBase.h>
+#include "WaylandWindow.h"
 
 static int initialized = 0;
 
@@ -142,10 +143,10 @@ static jobject
 android_eglGetDisplay
   (JNIEnv *_env, jobject _this, jint display_id) {
     EGLDisplay _returnValue = (EGLDisplay) 0;
-//     _returnValue = eglGetDisplay(
-//         (EGLNativeDisplayType)display_id
-//     );
-    _returnValue = eglGetDisplay(waylandClient->display());
+    _returnValue = eglGetDisplay(
+        (EGLNativeDisplayType)display_id
+    );
+//     _returnValue = eglGetDisplay(AndroidRuntime::getWaylandClient()->display());
     return toEGLHandle(_env, egldisplayClass, egldisplayConstructor, _returnValue);
 }
 
@@ -525,7 +526,8 @@ android_eglCreateWindowSurface
     EGLint *attrib_list_base = (EGLint *) 0;
     jint _remaining;
     EGLint *attrib_list = (EGLint *) 0;
-    android::sp<ANativeWindow> window;
+    android::WaylandWindow *window;
+//     android::sp<ANativeWindow> window;
 
     if (!attrib_list_ref) {
         _exception = 1;
@@ -547,7 +549,8 @@ not_valid_surface:
         goto exit;
     }
 
-    window = android::android_view_Surface_getNativeWindow(_env, win);
+    window = android::android_view_Wayland_getWindow(_env, win);
+//     window = android::android_view_Surface_getNativeWindow(_env, win);
 
     if (window == NULL)
         goto not_valid_surface;
@@ -573,7 +576,8 @@ not_valid_surface:
     _returnValue = eglCreateWindowSurface(
         (EGLDisplay)dpy_native,
         (EGLConfig)config_native,
-        (EGLNativeWindowType)window.get(),
+        window->getNative(),
+//         (EGLNativeWindowType)window.get(),
         (EGLint *)attrib_list
     );
 
@@ -602,8 +606,9 @@ android_eglCreateWindowSurfaceTexture
     EGLint *attrib_list_base = (EGLint *) 0;
     jint _remaining;
     EGLint *attrib_list = (EGLint *) 0;
-    android::sp<ANativeWindow> window;
-    android::sp<android::IGraphicBufferProducer> producer;
+    android::WaylandWindow *window;
+//     android::sp<ANativeWindow> window;
+//     android::sp<android::IGraphicBufferProducer> producer;
 
     if (!attrib_list_ref) {
         _exception = 1;
@@ -624,12 +629,13 @@ not_valid_surface:
         _exceptionMessage = "Make sure the SurfaceView or associated SurfaceHolder has a valid Surface";
         goto exit;
     }
-    producer = android::SurfaceTexture_getProducer(_env, win);
-
-    if (producer == NULL)
-        goto not_valid_surface;
-
-    window = new android::Surface(producer, true);
+//     producer = android::SurfaceTexture_getProducer(_env, win);
+// 
+//     if (producer == NULL)
+//         goto not_valid_surface;
+// 
+//     window = new android::Surface(producer, true);
+    window = android::android_view_Wayland_getWindow(_env, win);
 
     if (window == NULL)
         goto not_valid_surface;
@@ -655,7 +661,8 @@ not_valid_surface:
     _returnValue = eglCreateWindowSurface(
         (EGLDisplay)dpy_native,
         (EGLConfig)config_native,
-        (EGLNativeWindowType)window.get(),
+        window->getNative(),
+//         (EGLNativeWindowType)window.get(),
         (EGLint *)attrib_list
     );
 

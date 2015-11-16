@@ -27,6 +27,9 @@
 #include <utils/misc.h>
 #include <assert.h>
 
+extern GLAPIENTRY void (*epoxy_glTexGenfvOES)(GLenum coord, GLenum pname, const GLfloat * params);
+#define glTexGenfvOES epoxy_glTexGenfvOES
+
 static int initialized = 0;
 
 static jclass nioAccessClass;

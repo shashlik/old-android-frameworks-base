@@ -158,7 +158,7 @@ public class WindowManagerService extends IWindowManager.Stub
         implements Watchdog.Monitor, WindowManagerPolicy.WindowManagerFuncs,
                 DisplayManagerService.WindowManagerFuncs, DisplayManager.DisplayListener {
     static final String TAG = "WindowManager";
-    static final boolean DEBUG = false;
+    static final boolean DEBUG = true;
     static final boolean DEBUG_ADD_REMOVE = false;
     static final boolean DEBUG_FOCUS = false;
     static final boolean DEBUG_FOCUS_LIGHT = DEBUG_FOCUS || false;
@@ -182,7 +182,7 @@ public class WindowManagerService extends IWindowManager.Stub
     static final boolean DEBUG_DRAG = false;
     static final boolean DEBUG_SCREEN_ON = false;
     static final boolean DEBUG_SCREENSHOT = false;
-    static final boolean DEBUG_BOOT = false;
+    static final boolean DEBUG_BOOT = true;
     static final boolean DEBUG_LAYOUT_REPEATS = true;
     static final boolean DEBUG_SURFACE_TRACE = false;
     static final boolean DEBUG_WINDOW_TRACE = false;
@@ -3111,6 +3111,7 @@ public class WindowManagerService extends IWindowManager.Stub
         } finally {
             Binder.restoreCallingIdentity(origId);
         }
+        Log.e(TAG, "Finished drawing window for session " + session.toString() + " with client " + client.toString());
     }
 
     @Override
@@ -6636,10 +6637,10 @@ public class WindowManagerService extends IWindowManager.Stub
         // TODO(multidisplay): For now, apply Configuration to main screen only.
         final DisplayContent displayContent = getDefaultDisplayContentLocked();
 
-        // so, this should not sensibly happen. Apparently it does.
-        if(displayContent == null) {
-            return false;
-        }
+//         // so, this should not sensibly happen. Apparently it does.
+//         if(displayContent == null) {
+//             return false;
+//         }
 
         // Use the effective "visual" dimensions based on current rotation
         final boolean rotated = (mRotation == Surface.ROTATION_90
@@ -7879,9 +7880,9 @@ public class WindowManagerService extends IWindowManager.Stub
     }
 
     private void configureDisplayPolicyLocked(DisplayContent displayContent) {
-        // OK, so this can happen.
-        if(displayContent == null)
-            return;
+//         // OK, so this can happen.
+//         if(displayContent == null)
+//             return;
         mPolicy.setInitialDisplaySize(displayContent.getDisplay(),
                 displayContent.mBaseDisplayWidth,
                 displayContent.mBaseDisplayHeight,

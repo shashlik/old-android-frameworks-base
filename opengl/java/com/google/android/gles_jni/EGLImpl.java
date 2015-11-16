@@ -22,6 +22,7 @@ import android.graphics.SurfaceTexture;
 import android.view.Surface;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
+import android.view.WaylandWindow;
 
 public class EGLImpl implements EGL10 {
     private EGLContextImpl mContext = new EGLContextImpl(-1);
@@ -90,7 +91,7 @@ public class EGLImpl implements EGL10 {
         int eglSurfaceId;
         if (sur != null) {
             eglSurfaceId = _eglCreateWindowSurface(display, config, sur, attrib_list);
-        } else if (native_window instanceof SurfaceTexture) {
+        } else if (native_window instanceof SurfaceTexture || native_window instanceof WaylandWindow) {
             eglSurfaceId = _eglCreateWindowSurfaceTexture(display, config,
                     native_window, attrib_list);
         } else {

@@ -119,9 +119,11 @@ class ServerThread {
             }
         }
 
-        String factoryTestStr = SystemProperties.get("ro.factorytest");
-        int factoryTest = "".equals(factoryTestStr) ? SystemServer.FACTORY_TEST_OFF
-                : Integer.parseInt(factoryTestStr);
+//         String factoryTestStr = SystemProperties.get("ro.factorytest");
+//         int factoryTest = "".equals(factoryTestStr) ? SystemServer.FACTORY_TEST_OFF
+//                 : Integer.parseInt(factoryTestStr);
+// SHASHLIK - hard this to off...
+        int factoryTest = SystemServer.FACTORY_TEST_OFF;
         final boolean headless = "1".equals(SystemProperties.get("ro.config.headless", "0"));
 
         Installer installer = null;

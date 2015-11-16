@@ -205,8 +205,8 @@ public final class ActivityManagerService extends ActivityManagerNative
     private static final String USER_DATA_DIR = "/usr/android/data/user/";
     static final String TAG = "ActivityManager";
     static final String TAG_MU = "ActivityManagerServiceMU";
-    static final boolean DEBUG = true;
-    static final boolean localLOGV = DEBUG;
+    static final boolean DEBUG = false;
+    static final boolean localLOGV = false;
     static final boolean DEBUG_BACKUP = localLOGV || false;
     static final boolean DEBUG_BROADCAST = localLOGV || false;
     static final boolean DEBUG_BROADCAST_LIGHT = DEBUG_BROADCAST || false;

@@ -124,6 +124,8 @@ extern int register_android_view_GLES20DisplayList(JNIEnv* env);
 extern int register_android_view_GLES20Canvas(JNIEnv* env);
 extern int register_android_view_HardwareRenderer(JNIEnv* env);
 extern int register_android_view_Surface(JNIEnv* env);
+// SHASHLIK
+extern int register_android_view_Wayland(JNIEnv* env);
 extern int register_android_view_SurfaceControl(JNIEnv* env);
 extern int register_android_view_SurfaceSession(JNIEnv* env);
 extern int register_android_view_TextureView(JNIEnv* env);
@@ -228,42 +230,10 @@ int register_com_android_internal_os_RuntimeInit(JNIEnv* env)
 
 /*static*/ JavaVM* AndroidRuntime::mJavaVM = NULL;
 
-
 AndroidRuntime::AndroidRuntime() :
         mExitWithoutCleanup(false)
 {
-    waylandClient = new WaylandClient();
-    EGLDisplay display = eglGetDisplay(waylandClient->display());
-
-    // initialize opengl and egl
-    const EGLint attribs[] = {
-            EGL_RED_SIZE,   8,
-            EGL_GREEN_SIZE, 8,
-            EGL_BLUE_SIZE,  8,
-            EGL_DEPTH_SIZE, 0,
-            EGL_NONE
-    };
-    if (eglInitialize(display, 0, 0) == EGL_FALSE) {
-        ALOGE("Initialisation of the EGL display failed, and the error is %s", waylandClient->EGLErrorString(eglGetError()));
-    }
-    else {
-        EGLint w, h, dummy;
-        EGLint numConfigs;
-        EGLConfig config;
-        eglChooseConfig(display, attribs, &config, 1, &numConfigs);
-        EGLSurface surface = waylandClient->getSurface(display, config, 480, 640);
-        EGLContext context = eglCreateContext(display, config, NULL, NULL);
-        eglQuerySurface(display, surface, EGL_WIDTH, &w);
-        eglQuerySurface(display, surface, EGL_HEIGHT, &h);
-    //     w = 480;
-    //     h = 640;
-
-        if (eglMakeCurrent(display, surface, surface, context) == EGL_FALSE) {
-            ALOGE("Make current failed, height and width were supposedly %d and %d, and the error is %s", h, w, waylandClient->EGLErrorString(eglGetError()));
-        }
-        ALOGI("Make current succeeded, and we now have a current surface of height and width %d and %d", h, w);
-    }
-
+    getWaylandClient();
     SkGraphics::Init();
     // this sets our preference for 16bit images during decode
     // in case the src is opaque and 24bit
@@ -286,6 +256,46 @@ AndroidRuntime::AndroidRuntime() :
 AndroidRuntime::~AndroidRuntime()
 {
     SkGraphics::Term();
+}
+
+WaylandClient* AndroidRuntime::getWaylandClient()
+{
+    static WaylandClient* waylandClient = 0;
+    if(!waylandClient) {
+        waylandClient = WaylandClient::getInstance();
+        waylandClient->connect();
+//         EGLDisplay display = eglGetDisplay(waylandClient->getDisplay());
+// 
+//         // initialize opengl and egl
+//         const EGLint attribs[] = {
+//                 EGL_RED_SIZE,   8,
+//                 EGL_GREEN_SIZE, 8,
+//                 EGL_BLUE_SIZE,  8,
+//                 EGL_DEPTH_SIZE, 0,
+//                 EGL_NONE
+//         };
+//         if (eglInitialize(display, 0, 0) == EGL_FALSE) {
+//             ALOGE("Initialisation of the EGL display failed, and the error is %s", waylandClient->EGLErrorString(eglGetError()));
+//         }
+//         else {
+//             EGLint w, h, dummy;
+//             EGLint numConfigs;
+//             EGLConfig config;
+//             eglChooseConfig(display, attribs, &config, 1, &numConfigs);
+//             EGLSurface surface = waylandClient->getSurface(display, config, 480, 640);
+//             EGLContext context = eglCreateContext(display, config, NULL, NULL);
+//             eglQuerySurface(display, surface, EGL_WIDTH, &w);
+//             eglQuerySurface(display, surface, EGL_HEIGHT, &h);
+//         //     w = 480;
+//         //     h = 640;
+// 
+//             if (eglMakeCurrent(display, surface, surface, context) == EGL_FALSE) {
+//                 ALOGE("Make current failed, height and width were supposedly %d and %d, and the error is %s", h, w, waylandClient->EGLErrorString(eglGetError()));
+//             }
+//             ALOGI("Make current succeeded, and we now have a current surface of height and width %d and %d", h, w);
+//         }
+    }
+    return waylandClient;
 }
 
 /*
@@ -1151,6 +1161,8 @@ static const RegJNIRec gRegJNI[] = {
     REG_JNI(register_android_view_GLES20Canvas),
     REG_JNI(register_android_view_HardwareRenderer),
     REG_JNI(register_android_view_Surface),
+    // SHASHLIK
+    REG_JNI(register_android_view_Wayland),
     REG_JNI(register_android_view_SurfaceControl),
     REG_JNI(register_android_view_SurfaceSession),
     REG_JNI(register_android_view_TextureView),

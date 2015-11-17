@@ -28,8 +28,8 @@
 #include <pthread.h>
 #include <nativehelper/jni.h>
 
-#define QT_NO_KEYWORDS
-#include <WaylandClient.h>
+// #define QT_NO_KEYWORDS
+// #include <WaylandClient.h>
 
 namespace android {
 
@@ -39,7 +39,7 @@ public:
     AndroidRuntime();
     virtual ~AndroidRuntime();
 
-    static WaylandClient* getWaylandClient();
+//     static WaylandClient* getWaylandClient();
 
     enum StartMode {
         Zygote,

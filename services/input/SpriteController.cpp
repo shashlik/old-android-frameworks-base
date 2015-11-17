@@ -214,6 +214,7 @@ void SpriteController::doUpdateSprites() {
 
                 SkPaint paint;
                 paint.setXfermodeMode(SkXfermode::kSrc_Mode);
+                ALOGE("This next call causes crashes for me, and i have no idea why! (~leinir)");
                 surfaceCanvas.drawBitmap(update.state.icon.bitmap, 0, 0, &paint);
 
                 if (outBuffer.width > uint32_t(update.state.icon.bitmap.width())) {

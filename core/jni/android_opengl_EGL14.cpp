@@ -24,7 +24,8 @@
 #include <utils/misc.h>
 
 #include <assert.h>
-#include <EGL/egl.h>
+// #include <EGL/egl.h>
+#include <epoxy/egl.h>
 
 #include <gui/Surface.h>
 #include <gui/GLConsumer.h>
@@ -32,6 +33,7 @@
 
 // #include <ui/ANativeObjectBase.h>
 #include "WaylandWindow.h"
+#include "WaylandClient.h"
 
 static int initialized = 0;
 

@@ -24,8 +24,9 @@
 #include <utils/misc.h>
 
 #include <assert.h>
-#include <EGL/egl.h>
-#include <EGL/eglext.h>
+// #include <EGL/egl.h>
+// #include <EGL/eglext.h>
+#include <epoxy/egl.h>
 
 #include <gui/Surface.h>
 #include <gui/GLConsumer.h>

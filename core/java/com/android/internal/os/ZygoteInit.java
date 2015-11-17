@@ -30,6 +30,7 @@ import android.os.SystemProperties;
 import android.os.Trace;
 import android.util.EventLog;
 import android.util.Log;
+import android.view.WaylandClient;
 
 import dalvik.system.VMRuntime;
 import dalvik.system.Zygote;
@@ -471,6 +472,9 @@ public class ZygoteInit {
             throws ZygoteInit.MethodAndArgsCaller {
 
         closeServerSocket();
+        // SHASHLIK
+        WaylandClient.clearInstance();
+        WaylandClient.connect();
 
         // set umask to 0077 so new files and directories will default to owner-only permissions.
         Libcore.os.umask(S_IRWXG | S_IRWXO);
@@ -610,6 +614,9 @@ public class ZygoteInit {
 
             closeServerSocket();
         } catch (MethodAndArgsCaller caller) {
+            // SHASHLIK
+            WaylandClient.clearInstance();
+            WaylandClient.connect();
             caller.run();
         } catch (RuntimeException ex) {
             Log.e(TAG, "Zygote died with exception", ex);

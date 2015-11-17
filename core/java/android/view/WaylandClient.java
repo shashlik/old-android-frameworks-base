@@ -5,6 +5,7 @@ import android.util.Log;
 public class WaylandClient {
     private static native long nativeEGLDisplay();
     private static native long nativeCreateWindow(int width, int height);
+    private static native void nativeClearInstance();
     private static native void nativeConnect();
     private static Thread mDispatchThread;
     private static native int nativeDispatch();
@@ -13,9 +14,12 @@ public class WaylandClient {
         return nativeEGLDisplay();
     }
 
+    // This is called ONLY when forking out zygote...
+    public static  void clearInstance() {
+        nativeClearInstance();
+    }
     public static  void connect() {
         nativeConnect();
-
     }
     public static int dispatch() {
         return nativeDispatch();

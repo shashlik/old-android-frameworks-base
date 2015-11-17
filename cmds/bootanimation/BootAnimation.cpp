@@ -77,7 +77,7 @@ namespace android {
 BootAnimation::BootAnimation() : Thread(false), m_waylandClient(0)
 {
     mSession = new SurfaceComposerClient();
-    m_waylandClient = WaylandClient::getInstance();
+    m_waylandClient = &WaylandClient::getInstance();
     m_waylandClient->connect();
 //     m_waylandClient = new WaylandClient();
 //     while(m_waylandClient->hasShellSurface() == false) {

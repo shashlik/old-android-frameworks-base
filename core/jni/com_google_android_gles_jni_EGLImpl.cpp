@@ -38,6 +38,7 @@
 // #include <ui/ANativeObjectBase.h>
 
 #include "WaylandWindow.h"
+#include "WaylandClient.h"
 
 namespace android {
 
@@ -127,7 +128,7 @@ static jboolean jni_eglInitialize(JNIEnv *_env, jobject _this, jobject display,
     }
 
 //     EGLDisplay dpy = getDisplay(_env, display);
-    jboolean success = eglInitialize(AndroidRuntime::getWaylandClient()->getDisplay(), NULL, NULL);
+    jboolean success = eglInitialize(eglGetDisplay(WaylandClient::getInstance().getDisplay()), NULL, NULL);
     if (success && major_minor) {
         int len = _env->GetArrayLength(major_minor);
         if (len) {
@@ -484,7 +485,7 @@ static jboolean jni_eglDestroySurface(JNIEnv *_env, jobject _this, jobject displ
 
 static jint jni_eglGetDisplay(JNIEnv *_env, jobject _this, jobject native_display) {
 //     return (jint)eglGetDisplay(EGL_DEFAULT_DISPLAY);
-    return (jint)eglGetDisplay(AndroidRuntime::getWaylandClient()->getDisplay());
+    return (jint)eglGetDisplay(WaylandClient::getInstance().getDisplay());
 }
 
 static jboolean jni_eglMakeCurrent(JNIEnv *_env, jobject _this, jobject display, jobject draw, jobject read, jobject context) {
